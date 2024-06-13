@@ -11,12 +11,12 @@ Ensure [Docker](https://www.docker.com/products/docker-desktop/) is installed.
 Build the Docker image:
 
 ```
-docker build -t voice-integration-api
+docker build -t voice-integration-api .
 ```
 
 Run the container:
 ```
-docker run -p 5000:5000 voice-integration-api
+docker run -p 8000:8000 voice-integration-api
 ```
 
 ## API Endpoints

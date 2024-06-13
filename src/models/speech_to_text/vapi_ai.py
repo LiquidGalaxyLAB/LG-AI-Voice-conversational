@@ -30,7 +30,7 @@ class VapiAI:
             "model": {
                 "provider": "openai",
                 "model": "gpt-3.5-turbo",
-                "systemPrompt": "You're an assistant!s"
+                "systemPrompt": "You're an assistant!"
             },
             "voice": {
                 "provider": "11labs",
@@ -40,6 +40,20 @@ class VapiAI:
         
         call_response = self.start_call(assistant=assistant)
         return call_response.get('transcription', 'Transcription not available')
+
+    def send_message(self, role, content):
+        url = f'{self.base_url}/send'
+        data = {
+            "type": "add-message",
+            "message": {
+                "role": role,
+                "content": content
+            },
+            "sessionId": self.session_id
+        }
+        response = requests.post(url, headers=self.headers, json=data)
+        response.raise_for_status()
+        return response.json()
 
     def set_muted(self, muted):
         url = f'{self.base_url}/mute'
@@ -65,6 +79,9 @@ vapi_ai_instance = VapiAI('public-key')
 
 def transcribe(audio_data):
     return vapi_ai_instance.transcribe(audio_data)
+
+def send_message(role, content):
+    return vapi_ai_instance.send_message(role, content)
 
 def set_muted(muted):
     return vapi_ai_instance.set_muted(muted)

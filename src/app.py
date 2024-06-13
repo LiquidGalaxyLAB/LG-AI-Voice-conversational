@@ -1,45 +1,53 @@
-from flask import Flask, request, jsonify
+from fastapi import FastAPI, HTTPException, Header, Request
+from fastapi.responses import JSONResponse, StreamingResponse
 from models.speech_to_text import vapi_ai as stt_model
 from models.text_to_speech import vapi_ai as tts_model
 
-app = Flask(__name__)
+app = FastAPI()
 
-@app.route('/speech-to-text', methods=['POST'])
-def speech_to_text():
-    model_name = request.headers.get('X-STT-Model')
-    if not model_name:
-        return jsonify({'error': 'X-STT-Model header is missing'}), 400
+@app.post("/speech-to-text")
+async def speech_to_text(request: Request, x_stt_model: str = Header(None)):
+    if not x_stt_model:
+        raise HTTPException(status_code=400, detail="X-STT-Model header is missing.")
 
-    audio_data = request.data
+    audio_data = await request.body()
     text = stt_model.transcribe(audio_data)
     
-    return jsonify({'text': text})
+    return JSONResponse(content={"text": text})
 
-@app.route('/text-to-speech', methods=['POST'])
-def text_to_speech():
-    model_name = request.headers.get('X-TTS-Model')
-    if not model_name:
-        return jsonify({'error': 'X-TTS-Model header is missing'}), 400
+@app.post("/text-to-speech")
+async def text_to_speech(request: Request, x_tts_model: str = Header(None)):
+    if not x_tts_model:
+        raise HTTPException(status_code=400, detail="X-TTS-Model header is missing.")
 
-    text_data = request.json.get('text')
+    data = await request.json()
+    text_data = data.get("text")
     if not text_data:
-        return jsonify({'error': 'No text provided'}), 400
+        raise HTTPException(status_code=400, detail="No text provided.")
 
     audio = tts_model.synthesize(text_data)
     
-    return audio
+    return StreamingResponse(content=audio, media_type="audio/wav")
 
-@app.route('/mute-mic', methods=['POST'])
-def mute_mic():
-    model_name = request.headers.get('X-Model')
-    if not model_name:
-        return jsonify({'error': 'X-Model header is missing'}), 400
+@app.post("/send-message")
+async def send_message(request: Request, x_model: str = Header(None)):
+    if not x_model:
+        raise HTTPException(status_code=400, detail="X-Model header is missing.")
 
-    muted = request.json.get('muted', True)
+    data = await request.json()
+    role = data.get("role", "user")
+    message = data.get("message")
+    response = stt_model.send_message(role, message)
+    
+    return JSONResponse(content=response)
 
+@app.post("/mute-mic")
+async def mute_mic(request: Request, x_model: str = Header(None)):
+    if not x_model:
+        raise HTTPException(status_code=400, detail="X-Model header is missing")
+
+    data = await request.json()
+    muted = data.get("muted", True)
     stt_model.set_muted(muted)
     
-    return jsonify({'muted': muted})
-
-if __name__ == '__main__':
-    app.run(debug=True)
+    return JSONResponse(content={"muted": muted})
