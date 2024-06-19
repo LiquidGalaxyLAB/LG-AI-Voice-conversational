@@ -19,6 +19,10 @@ Run the container:
 docker run -p 8000:8000 voice-integration-api
 ```
 
+## Authorizaion
+
+Create a `.env` in the `src/` directory and set each appropriate API keys as `MODEL_API_KEY`, where `MODEL` is replaced by the model you are using.
+
 ## API Endpoints
 
 ### Speech-to-Text
@@ -29,19 +33,15 @@ URL:`/speech-to-text`
 
 Method: `POST`
 
-Headers: `X-STT-Model`: The model to use for speech-to-text conversion.
+Headers: `Content-Type: application/json`
 
 Request Body: Raw audio data.
 
-Response: `200 OK`: On success, returns the transcribed text:
+An object that contains all fields that are passed into the specific API.
 
-```
-{
-    "text": "Transcribed text"
-}
-```
+`200 OK`: On success, returns the transcribed text.
 
-`400 Bad Request`: If X-STT-Model header is missing or audio data is not provided.
+`400 Bad Request`: If required parameters for the model is missing.
 
 ### Text-to-Speech
 
@@ -51,44 +51,14 @@ URL: `/text-to-speech`
 
 Method: `POST`
 
-Headers: `X-TTS-Model`: The model to use for text-to-speech conversion.
+Headers: `Content-Type: application/json`
 
 Request Body:
 
-`text`: The text to be converted to audio.
-
-```
-{
-    "text": "Hello, how are you?"
-}
-```
+An object that contains all fields that are passed into the specific API.
 
 Response:
 
 `200 OK`: On success, returns the audio data.
 
-`400 Bad Request`: If X-TTS-Model header or text is missing.
-
-### Mute/Unmute Microphone
-
-Mute or unmute the user's microphone.
-
-URL: `/mute-mic`
-
-Method: `POST`
-
-Headers: `X-Model`: The model to use.
-
-Request Body:
-
-`muted`: Boolean indicating whether to mute or unmute the microphone.
-
-```
-{
-    "muted": true
-}
-```
-
-Response:
-
-`200 OK`: On success, returns the current mute status.
+`400 Bad Request`: If required parameters for the model is missing.

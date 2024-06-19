@@ -1,53 +1,114 @@
-from fastapi import FastAPI, HTTPException, Header, Request
-from fastapi.responses import JSONResponse, StreamingResponse
-from models.speech_to_text import vapi_ai as stt_model
-from models.text_to_speech import vapi_ai as tts_model
+import os
+import requests
+from fastapi import FastAPI, HTTPException, Request
+from groq import Groq
+from dotenv import load_dotenv
+from model_config import MODEL_CONFIGS
 
+load_dotenv()
+client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 app = FastAPI()
 
-@app.post("/speech-to-text")
-async def speech_to_text(request: Request, x_stt_model: str = Header(None)):
-    if not x_stt_model:
-        raise HTTPException(status_code=400, detail="X-STT-Model header is missing.")
-
-    audio_data = await request.body()
-    text = stt_model.transcribe(audio_data)
-    
-    return JSONResponse(content={"text": text})
-
-@app.post("/text-to-speech")
-async def text_to_speech(request: Request, x_tts_model: str = Header(None)):
-    if not x_tts_model:
-        raise HTTPException(status_code=400, detail="X-TTS-Model header is missing.")
-
+@app.post("/speech-to-text/")
+async def speech_to_text(request: Request):
     data = await request.json()
-    text_data = data.get("text")
-    if not text_data:
-        raise HTTPException(status_code=400, detail="No text provided.")
+    model = data.get("model")
+    params = data.get("params")
 
-    audio = tts_model.synthesize(text_data)
-    
-    return StreamingResponse(content=audio, media_type="audio/wav")
+    model_config = MODEL_CONFIGS.get(model)
+    if not model_config:
+        raise HTTPException(status_code=400, detail="Model not found.")
 
-@app.post("/send-message")
-async def send_message(request: Request, x_model: str = Header(None)):
-    if not x_model:
-        raise HTTPException(status_code=400, detail="X-Model header is missing.")
+    for param in model_config["required"]:
+        if param not in params:
+            raise HTTPException(status_code=400, detail=f"Missing required parameter: {param}")
 
+    headers = {
+        "Authorization": f"Bearer {os.environ.get(f'{model.upper()}_API_KEY')}"
+    }
+    body = {key: params[key] for key in model_config["required"]}
+
+    for param in model_config["optional"]:
+        if param in params:
+            body[param] = params[param]
+
+    if model == "google_cloud_gemini":
+        response = requests.post(
+            "https://speech.googleapis.com/v1/speech:recognize",
+            headers=headers,
+            json={"config": {k: v for k, v in body.items() if k != "content"}, "audio": {"content": body["content"]}}
+        )
+    elif model == "vapi_ai_stt":
+        response = requests.post(
+            "https://api.vapi.ai/v1/speech-to-text",
+            headers=headers,
+            json=body
+        )
+    elif model == "deepgram_stt":
+        response = requests.post(
+            "https://api.deepgram.com/v1/listen",
+            headers=headers,
+            files={"audio": body["content"]}
+        )
+    return response.json()
+
+@app.post("/text-to-speech/")
+async def text_to_speech(request: Request):
     data = await request.json()
-    role = data.get("role", "user")
-    message = data.get("message")
-    response = stt_model.send_message(role, message)
-    
-    return JSONResponse(content=response)
+    model = data.get("model")
+    params = data.get("params")
 
-@app.post("/mute-mic")
-async def mute_mic(request: Request, x_model: str = Header(None)):
-    if not x_model:
-        raise HTTPException(status_code=400, detail="X-Model header is missing")
+    model_config = MODEL_CONFIGS.get(model)
+    if not model_config:
+        raise HTTPException(status_code=400, detail="Unsupported model")
 
+    for param in model_config["required"]:
+        if param not in params:
+            raise HTTPException(status_code=400, detail=f"Missing required parameter: {param}")
+
+    headers = {
+        "Authorization": f"Bearer {os.environ.get(f'{model.upper()}_API_KEY')}"
+    }
+    body = {key: params[key] for key in model_config["required"]}
+
+    for param in model_config["optional"]:
+        if param in params:
+            body[param] = params[param]
+
+    if model == "google_cloud_wavenet":
+        response = requests.post(
+            "https://texttospeech.googleapis.com/v1/text:synthesize",
+            headers=headers,
+            json=body
+        )
+    elif model == "vapi_ai_tts":
+        response = requests.post(
+            "https://api.vapi.ai/v1/text-to-speech",
+            headers=headers,
+            json=body
+        )
+    elif model == "deepgram_tts":
+        response = requests.post(
+            "https://api.deepgram.com/v1/synthesize",
+            headers=headers,
+            json=body
+        )
+    return response.json()
+
+@app.post("/groq/")
+async def create_chat_completion(request: Request):
     data = await request.json()
-    muted = data.get("muted", True)
-    stt_model.set_muted(muted)
-    
-    return JSONResponse(content={"muted": muted})
+    model = data.get("model")
+    messages = data.get("messages")
+
+    models = ["llama3-8b-8192", "llama3-70b-8192", "mixtral-8x7b-32768", "gemma-7b-it"]
+    if model not in models:
+        return "Model not found."
+    try:
+        chat_completion = client.chat.completions.create(
+            messages=messages,
+            model=model
+        )
+        return chat_completion.choices[0].message.content
+    except Exception as e:
+        return f"An error occurred: {str(e)}"
