@@ -99,16 +99,24 @@ async def text_to_speech(request: Request):
 async def create_chat_completion(request: Request):
     data = await request.json()
     model = data.get("model")
-    messages = data.get("messages")
-
+    role = data.get("role")
+    content = data.get("content")
+    model_config = MODEL_CONFIGS.get("groq")
     models = ["llama3-8b-8192", "llama3-70b-8192", "mixtral-8x7b-32768", "gemma-7b-it"]
-    if model not in models:
-        return "Model not found."
+
+    if not model_config:
+        raise HTTPException(status_code=400, detail="Model config not found.")
+    
+    if not model or model not in models or not role or role != "user" or not content:
+        raise HTTPException(status_code=400, detail="Model, role, and content are required.")
+    
+    messages = [{"role": role, "content": content}]
+    
     try:
         chat_completion = client.chat.completions.create(
             messages=messages,
             model=model
         )
-        return chat_completion.choices[0].message.content
+        return {"content": chat_completion.choices[0].message.content}
     except Exception as e:
-        return f"An error occurred: {str(e)}"
+        raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")

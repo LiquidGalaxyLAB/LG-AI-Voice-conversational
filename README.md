@@ -16,12 +16,12 @@ Documentation and code to integrate AI voices to LG applications.
 
 ## Model Documentation
 
-Link to the description of the models and costs are [here](./models.md).
+Link to the description of the models and costs are [here](./docs/models.md).
 
 ## API Documentation
 
-Link to the API usage for voice-to-voice integrations for LG apps are [here](./api.md).
+Link to the API usage for voice-to-voice integrations for LG apps are [here](./docs/api.md).
 
 ## Pricing
 
-Link to the list of all the model pricing are listed [here](./pricing.md).
+Link to the list of all the model pricing are listed [here](./docs/pricing.md).

@@ -30,5 +30,9 @@ MODEL_CONFIGS = {
     "bark_tts": {
         "required": [],
         "optional": []
+    },
+    # Groq
+    "groq": {
+        "required": ["model", "role", "content"]
     }
 }
