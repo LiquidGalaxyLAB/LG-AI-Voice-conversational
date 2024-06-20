@@ -8,6 +8,8 @@ This API provides endpoints for speech-to-text (STT) and text-to-speech (TTS) co
 
 Ensure [Docker](https://www.docker.com/products/docker-desktop/) is installed.
 
+Navigate to the `src` directory.
+
 Build the Docker image:
 
 ```
@@ -60,5 +62,45 @@ An object that contains all fields that are passed into the specific API.
 Response:
 
 `200 OK`: On success, returns the audio data.
+
+`400 Bad Request`: If required parameters for the model is missing.
+
+### Groq
+
+Sends text to the Groq LPU and responds with the response message.
+
+URL: `/groq`
+
+Method: `POST`
+
+Headers: `Content-Type: application/json`
+
+Request Body:
+
+A `JSON object` containing `model`, and `content`, where content is a string of the messsage being sent to the LLM model, and model is one of:
+
+- llama3-8b-8192
+- llama3-70b-8192
+- mixtral-8x7b-32768"
+- gemma-7b-it
+
+Example input:
+
+```
+{
+    "model": "gemma-7b-it",
+    "content": "How are you doing?"
+}
+```
+
+Response:
+
+`200 OK`: On success, returns the audio data:
+
+```
+{
+    "content": "As a language model, I do not have personal experiences or physical health. However, I am functioning optimally and ready to assist you with any information or task you may have for me. How can I help you today?"
+}
+```
 
 `400 Bad Request`: If required parameters for the model is missing.

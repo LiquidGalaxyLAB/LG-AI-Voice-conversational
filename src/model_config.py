@@ -33,6 +33,6 @@ MODEL_CONFIGS = {
     },
     # Groq
     "groq": {
-        "required": ["model", "role", "content"]
+        "required": ["model", "content"]
     }
 }
