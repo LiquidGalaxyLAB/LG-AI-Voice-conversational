@@ -16,16 +16,16 @@ MODEL_CONFIGS = {
         "optional": ["name", "ssmlGender", "customVoice", "reportedUsage", "speakingRate", "pitch", "volumeGainDb", "sampleRateHertz"]
     },
     "deepgram_tts": {
-        "required": ["inputText", "voice", "audioConfig"],
-        "optional": ["sampleRateHertz", "effectsProfileId"]
+        "required": ["model-name", "text"],
+        "optional": []
     },
     "elevenlabs_tts": {
-        "required": ["inputText", "voice", "audioConfig"],
-        "optional": ["sampleRateHertz", "effectsProfileId"]
+        "required": [],
+        "optional": []
     },
     "chat_tts": {
-        "required": ["inputText", "voice", "audioConfig"],
-        "optional": ["sampleRateHertz", "effectsProfileId"]
+        "required": [],
+        "optional": []
     },
     "bark_tts": {
         "required": [],
