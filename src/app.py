@@ -1,8 +1,13 @@
 import os
 import requests
 from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import FileResponse
 from groq import Groq
 from dotenv import load_dotenv
+from bark import SAMPLE_RATE, generate_audio, preload_models
+from scipy.io.wavfile import write as write_wav
+from IPython.display import Audio
+from tempfile import NamedTemporaryFile
 from model_config import MODEL_CONFIGS
 
 load_dotenv()
@@ -52,48 +57,27 @@ async def speech_to_text(request: Request):
         )
     return response.json()
 
-@app.post("/text-to-speech/")
-async def text_to_speech(request: Request):
+@app.post("/text-to-speech")
+async def text_to_speech_bark(request: Request):
     data = await request.json()
     model = data.get("model")
-    params = data.get("params")
 
     model_config = MODEL_CONFIGS.get(model)
     if not model_config:
-        raise HTTPException(status_code=400, detail="Unsupported model")
+        raise HTTPException(status_code=400, detail="Model not found.")
+    
+    if model == "bark_tts":
+        content = data.get("content")
 
-    for param in model_config["required"]:
-        if param not in params:
-            raise HTTPException(status_code=400, detail=f"Missing required parameter: {param}")
+        try:
+            audio_array = generate_audio(content)
+            with NamedTemporaryFile(delete=False, suffix=".wav") as temp_file:
+                write_wav(temp_file.name, SAMPLE_RATE, audio_array)
+                temp_file_path = temp_file.name
+            return FileResponse(temp_file_path, media_type="audio/wav", filename="bark_generation.wav")
 
-    headers = {
-        "Authorization": f"Bearer {os.environ.get(f'{model.upper()}_API_KEY')}"
-    }
-    body = {key: params[key] for key in model_config["required"]}
-
-    for param in model_config["optional"]:
-        if param in params:
-            body[param] = params[param]
-
-    if model == "google_cloud_wavenet":
-        response = requests.post(
-            "https://texttospeech.googleapis.com/v1/text:synthesize",
-            headers=headers,
-            json=body
-        )
-    elif model == "vapi_ai_tts":
-        response = requests.post(
-            "https://api.vapi.ai/v1/text-to-speech",
-            headers=headers,
-            json=body
-        )
-    elif model == "deepgram_tts":
-        response = requests.post(
-            "https://api.deepgram.com/v1/synthesize",
-            headers=headers,
-            json=body
-        )
-    return response.json()
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")
 
 @app.post("/groq/")
 async def create_chat_completion(request: Request):

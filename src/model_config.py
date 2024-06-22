@@ -1,5 +1,3 @@
-# model_config.py
-
 MODEL_CONFIGS = {
     # Speech-to-text
     "google_cloud_gemini": {
@@ -28,7 +26,7 @@ MODEL_CONFIGS = {
         "optional": []
     },
     "bark_tts": {
-        "required": [],
+        "required": ["model", "content"],
         "optional": []
     },
     # Groq
