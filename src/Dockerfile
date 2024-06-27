@@ -2,12 +2,16 @@ FROM python:3.9-slim
 
 WORKDIR /usr/src/app
 
+RUN apt-get update && apt-get install -y git
+
 COPY . .
 
-RUN pip install --no-cache-dir -r requirements.txt
+COPY requirements.txt .
 
-EXPOSE 5000
+RUN pip install -r requirements.txt
+RUN pip install git+https://github.com/suno-ai/bark.git
+RUN git+https://github.com/2noise/ChatTTS
 
-ENV FLASK_APP=app.py
+EXPOSE 8000
 
-CMD ["flask", "run", "--host=0.0.0.0"]
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000", --reload]
