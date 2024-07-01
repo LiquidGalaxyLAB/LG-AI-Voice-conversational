@@ -50,21 +50,16 @@ The Google Cloud AI's text-to-speech API allows users to input text and get back
 
 More details and official documentation can be found [here](https://cloud.google.com/text-to-speech/docs/basics).
 
-
-|        Parameters       |       Required/Optional      |                                                                  Values                                                                    |
-| :---------------------: | :--------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------: |
-|          text           |           Required           |                                                      The raw text to be transcribed                                                        |
-|       languageCode      |           Required           |                     The language (and potentially also the region) of the voice expressed as a BCP-47 language tag                         |
-|          model          |           Required           |                                        The name of the AutoML model that synthesizes the custom voice                                      |
-|      audioEncoding	    |           Required           |                                                   The format of the audio byte stream                                                      |
-|          name           |           Optional           |      The name of the voice. If not set, the service will choose a voice based on the other parameters such as languageCode and gender      |
-|       ssmlGender        |           Optional           | The preferred gender of the voice. If not set, the service will choose a voice based on the other parameters such as languageCode and name |
-|       customVoice       |           Optional           |        The configuration for a custom voice. If set, the service will choose the custom voice matching the specified configuration         |
-|      reportedUsage      |           Optional           |                                         The usage of the synthesized audio to be reported                                                  |
-|       speakingRate      |           Optional           |                                               Speaking rate/speed, in the range [0.25, 4.0]                                                |
-|          pitch          |           Optional           |                                                 Speaking pitch, in the range [-20.0, 20.0]                                                 |
-|       volumeGainD       |           Optional           |                   Volume gain (in dB) of the normal native volume supported by the specific voice, in the range [-96.0, 16.0]              |
-|     sampleRateHertz     |           Optional           |                                             The synthesis sample rate (in hertz) for this audio                                            |
+|        Parameters       |       Required/Optional      |                                                                  Values                                                                    | Value Type |
+| :---------------------: | :--------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------: | :---------:|
+|          model          |           Required           |                                                            "google_cloud_tts"                                                              |   String   |
+|         content         |           Required           |                                                      The raw text to be transcribed                                                        |   String   |
+|       languageCode      |           Optional           |                     The language (and potentially also the region) of the voice expressed as a BCP-47 language tag                         |   String   |
+|          name           |           Optional           |      The name of the voice. If not set, the service will choose a voice based on the other parameters such as languageCode and gender      |   String   |
+|       speakingRate      |           Optional           |                                               Speaking rate/speed, in the range [0.25, 4.0]                                                |   Float    |
+|          pitch          |           Optional           |                                                 Speaking pitch, in the range [-20.0, 20.0]                                                 |   Float    |
+|      volume_gain_db     |           Optional           |                   Volume gain (in dB) of the normal native volume supported by the specific voice, in the range [-96.0, 16.0]              |   Float    |
+|     sampleRateHertz     |           Optional           |                                             The synthesis sample rate (in hertz) for this audio                                            |   Float    |
 
 
 ### ElevenLabs TTS
@@ -79,12 +74,12 @@ The complete list of model selections can be found [here](https://help.elevenlab
 | :------------------------: | :--------------------------: | :--------------------------------------------------------------------------: | :---------:|
 |           model            |           Required           |                                  "elevenlabs_tts"                            |   String   |
 |          content           |           Required           |                         The text to be converted to speech                   |   String   |
-|         voice_id           |           Optional           |               Voice ID to be used (default "pNInz6obpgDQGcFmaJgB")           |   String   |
-|         model_id           |           Optional           |  Identifier of the model that will be used (default "eleven_monolingual_v1") |   String   |
-|         latency            |           Optional           |               Latency optimizations at cost of quality (default "0")         |   String   |
-|        stability           |           Optional           |                          Adjusts the stability of the voice                  |    Float   |
-|        similarity          |           Optional           |                     Enhances the similarity to the target voice              |    Float   |
-|          style             |           Optional           |                      Modifies the speaking style of the voice                |    Float   |
+|         voice_id           |           Optional           |                                 Voice ID to be used                          |   String   |
+|         model_id           |           Optional           |                     Identifier of the model that will be used                |   String   |
+|         latency            |           Optional           |                       Latency optimizations at cost of quality               |   String   |
+|        stability           |           Optional           |                          Adjusts the stability of the voice                  |   Float    |
+|        similarity          |           Optional           |                     Enhances the similarity to the target voice              |   Float    |
+|          style             |           Optional           |                      Modifies the speaking style of the voice                |   Float    |
 |     use_speaker_boost      |           Optional           |  Enhances the voice to make it sound more like the speaker from the training | True/False |
 
 
@@ -98,7 +93,7 @@ The complete list of voice selections can be found [here](https://developers.dee
 | :---------------------: | :--------------------------: | :--------------------------------------------------------------: | :---------:|
 |          model          |           Required           |                         "deepgram_tts"                           |   String   |
 |         content         |           Required           |               The text to be converted to speech                 |   String   |
-|          voice          |           Optional           |     The voice model for the audio (default: "aura-asteria-en")   |   String   |
+|          voice          |           Optional           |                  The voice model for the audio                   |   String   |
 
 
 ### ChatTTS
@@ -114,7 +109,7 @@ Bark is a text-to-speech model by Suno AI, which will be used as the final layer
 
 Used in mentor Vedant's GSoC project from last year (Voice CMS), Bark can take text and generate a voice to read the given input. Bark's API processes the given text and produces a WAV file, which will be opened automatically on the local devices to initiate the narration upon generation of the audio file.
 
-|        Parameters       |       Required/Optional      |                             Values                               |
-| :---------------------: | :--------------------------: | :--------------------------------------------------------------: |
-|          model          |           Required           |                           "bark_tts"                             |
-|         content         |           Required           |               The text to be converted to speech                 |
+|        Parameters       |       Required/Optional      |                             Values                               | Value Type |
+| :---------------------: | :--------------------------: | :--------------------------------------------------------------: | :---------:|
+|          model          |           Required           |                           "bark_tts"                             |   String   |
+|         content         |           Required           |               The text to be converted to speech                 |   String   |

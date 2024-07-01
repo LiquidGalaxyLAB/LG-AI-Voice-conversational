@@ -64,22 +64,37 @@ async def speech_to_text(request: Request):
     return response.json()
 
 @app.post("/text-to-speech")
-async def text_to_speech_bark(request: Request):
+async def text_to_speech(request: Request):
     data = await request.json()
     model = data.get("model")
     content = data.get("content")
 
-    model_config = MODEL_CONFIGS.get(model)
-    if not model_config:
-        raise HTTPException(status_code=400, detail="Model not found.")
-
     if model == "google_cloud_tts":
         try:
+            language_code = data.get("language_code", "en-US")
+            voice_name = data.get("name", "en-US-Wavenet-D")
+            audio_encoding = data.get("audio_encoding", "LINEAR16")
+            speaking_rate = data.get("speaking_rate", 1.0)
+            pitch = data.get("pitch", 0.0)
+            volume_gain_db = data.get("volume_gain_db", 0.0)
+            sample_rate_hertz = data.get("sample_rate_hertz", None)
+
             client = texttospeech.TextToSpeechClient()
             synthesis_input = texttospeech.SynthesisInput(text=content)
-            voice = texttospeech.VoiceSelectionParams(language_code="en-US", name="en-US-Wavenet-D")
-            audio_config = texttospeech.AudioConfig(audio_encoding=texttospeech.AudioEncoding.LINEAR16)
-            response = client.synthesize_speech(input=synthesis_input, voice=voice, audio_config=audio_config)
+            voice = texttospeech.VoiceSelectionParams(
+                language_code=language_code, 
+                name=voice_name
+            )
+            audio_config = texttospeech.AudioConfig(
+                audio_encoding=texttospeech.AudioEncoding[audio_encoding],
+                speaking_rate=speaking_rate,
+                pitch=pitch,
+                volume_gain_db=volume_gain_db,
+                sample_rate_hertz=sample_rate_hertz
+            )
+            response = client.synthesize_speech(
+                input=synthesis_input, voice=voice, audio_config=audio_config
+            )
 
             with NamedTemporaryFile(delete=False, suffix=".wav") as temp_file:
                 temp_file.write(response.audio_content)
