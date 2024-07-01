@@ -111,19 +111,28 @@ async def text_to_speech_bark(request: Request):
             raise ValueError("ELEVENLABS_API_KEY is missing.")
         
         try:
+            voice_id = data.get("voice_id", "pNInz6obpgDQGcFmaJgB")
+            model_id = data.get("model_id", None)
+            latency = data.get("latency", "0")
+            stability = data.get("stability", 0.0)
+            similarity = data.get("similarity", 0.0)
+            style = data.get("style", 0.0)
+            use_speaker_boost = data.get("use_speaker_boost", False)
+
+            
             client = ElevenLabs(api_key=ELEVENLABS_API_KEY)
-                    
+        
             response = client.text_to_speech.convert(
-            voice_id="pNInz6obpgDQGcFmaJgB",
-            optimize_streaming_latency="0",
+            voice_id=voice_id,
+            optimize_streaming_latency=latency,
             output_format="mp3_22050_32",
             text=content,
-            model_id="eleven_turbo_v2",
+            model_id=model_id,
             voice_settings=VoiceSettings(
-                stability=0.0,
-                similarity_boost=1.0,
-                style=0.0,
-                use_speaker_boost=True,
+                stability=stability,
+                similarity_boost=similarity,
+                style=style,
+                use_speaker_boost=use_speaker_boost,
                 )
             )
             save_file_path = f"{uuid.uuid4()}.mp3"
@@ -145,8 +154,9 @@ async def text_to_speech_bark(request: Request):
             raise ValueError("DEEPGRAM_API_KEY is missing.")
         
         try:
+            voice = data.get("voice", "aura-asteria-en")
             deepgram = DeepgramClient(api_key=DEEPGRAM_API_KEY, config=ClientOptionsFromEnv())
-            options = SpeakOptions(model="aura-asteria-en")
+            options = SpeakOptions(model=voice)
             response = await deepgram.asyncspeak.v("1").save("deepgram.mp3", {"text": content}, options)
             return FileResponse("deepgram.mp3", media_type="audio/mpeg", filename="deepgram.mp3")
 

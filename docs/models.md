@@ -44,7 +44,7 @@ https://developers.deepgram.com/docs/tts-models
 ## Text-to-speech
 
 
-### Google Cloud AI with WaveNet
+### Google Cloud AI with WaveNet TTS
 
 The Google Cloud AI's text-to-speech API allows users to input text and get back an audio file in response, providing natural-sounding audio which can be customizable with options such as language, gender, and accent for all users to use the app. WaveNet was one of the first text-to-speech models that sounded natural-sounding speech, starting at Google Deepmind. The pricing is very feasible for our use cases, as the WaveNet model's usage is free of charge for every 1 million characters per month.
 
@@ -67,40 +67,38 @@ More details and official documentation can be found [here](https://cloud.google
 |     sampleRateHertz     |           Optional           |                                             The synthesis sample rate (in hertz) for this audio                                            |
 
 
-### llElevenLabs
+### ElevenLabs TTS
 
 This API generates an MP3 file from text in 29 languages, which can be customized to provide accessibility to as many users in the world as we can. With its very low latency of approximately 400ms using the Turbo model, this API can provide fast results so users don't have a large delay when waiting for a response back from the app combined with Groq's LPU. The feature provides a free tier allowing up to 10,000 characters per month, which may be too little considering we have users from around the world who may use our app. The pricing isn't too cheap considering other options, but the multi-language feature is appealing to allow everyone to use the app.
 
-More details and official documentation can be found [here](https://elevenlabs.io/docs/api-reference/text-to-speech).
+The complete list of voice selections can be found [here](https://elevenlabs.io/docs/voices/premade-voices#current-premade-voices).
 
-|        Parameters          |       Required/Optional      |                                                                  Values                                                                    |
-| :------------------------: | :--------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------: |
-|           text             |           Required           |                                                 The text that will get converted into speech.                                              |
-|         voice_id           |           Required           |                                                            Voice ID to be used                                                             |
-|      enable_logging        |           Optional           |                               Full privacy mode will be used for the request when set to false (detault true)                              |
-| optimize_streaming_latency |           Optional           |                                  The name of the AutoML model that synthesizes the custom voice (default 0)                                |
-|       output_format	       |           Optional           |                                           Output format of the generated audio (default mp3_44100_128)                                     |
-|         model_id           |           Optional           |                                      Identifier of the model that will be used (default eleven_monolingual_v1)                             |
-|      voice_settings        |           Optional           |                                         Voice settings overriding stored setttings for the given voice                                     |
-|  pronunciation_dictionary_locators |           Optional           |       A list of pronunciation dictionary locators (id, version_id) to be applied to the text        |
-|      seed         |           Optional           |                                         sample deterministically                                                 |
-|       previous_text         |           Optional           |                                      The text that came before the text of the current request                                              |
-|          next_text         |           Optional           |                                            next_text                                     |
-|    previous_request_ids          |           Optional           |         A list of request_id of the samples that were generated before this generation             |
-|     next_request_ids        |           Optional           |                    A list of request_id of the samples that were generated before this generation                                        |
+The complete list of model selections can be found [here](https://help.elevenlabs.io/hc/en-us/articles/17883183930129-What-models-do-you-offer-and-what-is-the-difference-between-them).
+
+|        Parameters          |       Required/Optional      |                                       Values                                 | Value Type |
+| :------------------------: | :--------------------------: | :--------------------------------------------------------------------------: | :---------:|
+|           model            |           Required           |                                  "elevenlabs_tts"                            |   String   |
+|          content           |           Required           |                         The text to be converted to speech                   |   String   |
+|         voice_id           |           Optional           |               Voice ID to be used (default "pNInz6obpgDQGcFmaJgB")           |   String   |
+|         model_id           |           Optional           |  Identifier of the model that will be used (default "eleven_monolingual_v1") |   String   |
+|         latency            |           Optional           |               Latency optimizations at cost of quality (default "0")         |   String   |
+|        stability           |           Optional           |                          Adjusts the stability of the voice                  |    Float   |
+|        similarity          |           Optional           |                     Enhances the similarity to the target voice              |    Float   |
+|          style             |           Optional           |                      Modifies the speaking style of the voice                |    Float   |
+|     use_speaker_boost      |           Optional           |  Enhances the voice to make it sound more like the speaker from the training | True/False |
 
 
-### Deepgram
+### Deepgram TTS
 
 Deepgram's text-to-speech feature is the cheapest by far with credits given with every new account. The cost to maintain the app using Deepgram's API is very low while providing very high-quality transcriptions. The speed of the application is very quick compared to other services and is 30% more accurate than other services on average, leading the market across use-case categories. There is a variety of voices we can use for Deepgram, allowing contributors to freely customize the experience of the app.
 
 The complete list of voice selections can be found [here](https://developers.deepgram.com/docs/tts-models).
 
-|        Parameters       |       Required/Optional      |                             Values                               |
-| :---------------------: | :--------------------------: | :--------------------------------------------------------------: |
-|          model          |           Required           |                         "deepgram_tts"                           |
-|         content         |           Required           |               The text to be converted to speech                 |
-|          voice          |           Optional           |      The voice model for the audio (default: aura-asteria-en)    |
+|        Parameters       |       Required/Optional      |                             Values                               | Value Type |
+| :---------------------: | :--------------------------: | :--------------------------------------------------------------: | :---------:|
+|          model          |           Required           |                         "deepgram_tts"                           |   String   |
+|         content         |           Required           |               The text to be converted to speech                 |   String   |
+|          voice          |           Optional           |     The voice model for the audio (default: "aura-asteria-en")   |   String   |
 
 
 ### ChatTTS
@@ -110,7 +108,7 @@ ChatTTS offers several benefits, including multi-language support, making it acc
 The project team plans to open source a trained base model, enabling academic researchers and developers to further study and develop the technology. Additionally, the team is focused on enhancing the model's controllability, adding watermarks, and integrating it with LLMs to ensure safety and reliability. ChatTTS offers ease of use by requiring only text input to generate corresponding voice files, making it a convenient solution for voice synthesis.
 
 
-### Bark
+### Bark TTS
 
 Bark is a text-to-speech model by Suno AI, which will be used as the final layer in the application's process to help us voice the story generated by our LLM model to the tablet so users can listen to it. Not only does this provide accessibility features so everyone can enjoy the application, but it is also a way to integrate the latest growth of AI into Liquid Galaxy applications one step at a time.
 
