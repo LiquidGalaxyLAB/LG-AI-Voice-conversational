@@ -1,6 +1,8 @@
 import os
 import uuid
 import requests
+# import ChatTTS
+# import torch
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse
@@ -10,8 +12,6 @@ from elevenlabs import VoiceSettings
 from elevenlabs.client import ElevenLabs
 from deepgram import DeepgramClient, ClientOptionsFromEnv, SpeakOptions
 from google.cloud import texttospeech
-# import ChatTTS
-# import torch
 from IPython.display import Audio
 from scipy.io.wavfile import write as write_wav
 from tempfile import NamedTemporaryFile

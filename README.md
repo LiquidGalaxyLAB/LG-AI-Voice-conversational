@@ -9,7 +9,7 @@ Documentation and code to integrate AI voices to LG applications.
 | :-------------------------: | :-----------------------------------: | :----------------: | 
 | Google Cloud AI with Gemini |      Google Cloud AI with WaveNet     |    Gemma-7b-It     |
 |          Deepgram           |                Deepgram               | Mixtral-8x7b-32768 |
-|                             |                ChatTTS                  |   Llama3-8b-8192 |
+|                             |                ChatTTS                |   Llama3-8b-8192   |
 |                             |                  Bark                 |   Llama3-70b-8192  |
 |                             |               llElevenLabs            |                    |
 
