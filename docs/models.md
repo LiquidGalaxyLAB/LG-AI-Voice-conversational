@@ -54,12 +54,12 @@ More details and official documentation can be found [here](https://cloud.google
 | :---------------------: | :--------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------: | :---------:|
 |          model          |           Required           |                                                            "google_cloud_tts"                                                              |   String   |
 |         content         |           Required           |                                                      The raw text to be transcribed                                                        |   String   |
-|       languageCode      |           Optional           |                     The language (and potentially also the region) of the voice expressed as a BCP-47 language tag                         |   String   |
+|       language_code     |           Optional           |                     The language (and potentially also the region) of the voice expressed as a BCP-47 language tag                         |   String   |
 |          name           |           Optional           |      The name of the voice. If not set, the service will choose a voice based on the other parameters such as languageCode and gender      |   String   |
-|       speakingRate      |           Optional           |                                               Speaking rate/speed, in the range [0.25, 4.0]                                                |   Float    |
+|       speaking_rate     |           Optional           |                                               Speaking rate/speed, in the range [0.25, 4.0]                                                |   Float    |
 |          pitch          |           Optional           |                                                 Speaking pitch, in the range [-20.0, 20.0]                                                 |   Float    |
 |      volume_gain_db     |           Optional           |                   Volume gain (in dB) of the normal native volume supported by the specific voice, in the range [-96.0, 16.0]              |   Float    |
-|     sampleRateHertz     |           Optional           |                                             The synthesis sample rate (in hertz) for this audio                                            |   Float    |
+|     sample_rate_hertz   |           Optional           |                                             The synthesis sample rate (in hertz) for this audio                                            |   Float    |
 
 
 ### ElevenLabs TTS

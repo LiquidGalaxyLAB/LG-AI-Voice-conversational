@@ -4,14 +4,15 @@ import requests
 # import ChatTTS
 # import torch
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import FileResponse
+from fastapi import FastAPI, HTTPException, Request, UploadFile, File, Form
+from fastapi.responses import FileResponse, JSONResponse
 from groq import Groq
 from bark import SAMPLE_RATE, generate_audio
 from elevenlabs import VoiceSettings
 from elevenlabs.client import ElevenLabs
-from deepgram import DeepgramClient, ClientOptionsFromEnv, SpeakOptions
+from deepgram import DeepgramClient, ClientOptionsFromEnv, SpeakOptions, FileSource, PrerecordedOptions
 from google.cloud import texttospeech
+from google.cloud import speech
 from IPython.display import Audio
 from scipy.io.wavfile import write as write_wav
 from tempfile import NamedTemporaryFile
@@ -21,47 +22,56 @@ load_dotenv()
 app = FastAPI()
 
 @app.post("/speech-to-text/")
-async def speech_to_text(request: Request):
-    data = await request.json()
-    model = data.get("model")
-    params = data.get("params")
+async def speech_to_text(
+    model: str = Form(...), 
+    audio: UploadFile = File(...)
+):
+    try:
+        model_config = MODEL_CONFIGS.get(model)
+        if not model_config:
+            raise HTTPException(status_code=400, detail="Model not found.")
 
-    model_config = MODEL_CONFIGS.get(model)
-    if not model_config:
-        raise HTTPException(status_code=400, detail="Model not found.")
+        audio_bytes = await audio.read()
 
-    for param in model_config["required"]:
-        if param not in params:
-            raise HTTPException(status_code=400, detail=f"Missing required parameter: {param}")
+        if model == "deepgram_stt":
+            DEEPGRAM_API_KEY = os.getenv("DEEPGRAM_API_KEY")
+            if not DEEPGRAM_API_KEY:
+                raise ValueError("DEEPGRAM_API_KEY is missing.")
 
-    headers = {
-        "Authorization": f"Bearer {os.environ.get(f'{model.upper()}_API_KEY')}"
-    }
-    body = {key: params[key] for key in model_config["required"]}
+            deepgram = DeepgramClient(api_key=DEEPGRAM_API_KEY)
 
-    for param in model_config["optional"]:
-        if param in params:
-            body[param] = params[param]
+            payload: FileSource = {"buffer": audio_bytes}
 
-    if model == "google_cloud_gemini":
-        response = requests.post(
-            "https://speech.googleapis.com/v1/speech:recognize",
-            headers=headers,
-            json={"config": {k: v for k, v in body.items() if k != "content"}, "audio": {"content": body["content"]}}
-        )
-    elif model == "vapi_ai_stt":
-        response = requests.post(
-            "https://api.vapi.ai/v1/speech-to-text",
-            headers=headers,
-            json=body
-        )
-    elif model == "deepgram_stt":
-        response = requests.post(
-            "https://api.deepgram.com/v1/listen",
-            headers=headers,
-            files={"audio": body["content"]}
-        )
-    return response.json()
+            options = PrerecordedOptions(
+                model="nova-2",
+                smart_format=True
+            )
+
+            response = deepgram.listen.prerecorded.v("1").transcribe_file(payload, options)
+
+            transcript = response["results"]["channels"][0]["alternatives"][0]["transcript"]
+            return JSONResponse(content={"transcript": transcript})
+        
+        elif model == "google_cloud_stt":
+            client = speech.SpeechClient()
+
+            audio_content = speech.RecognitionAudio(content=audio_bytes)
+
+            config = speech.RecognitionConfig(
+                encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
+                language_code="en-US"
+            )
+
+            response = client.recognize(config=config, audio=audio_content)
+
+            transcript = response.results[0].alternatives[0].transcript
+            return JSONResponse(content={"transcript": transcript})
+
+        raise HTTPException(status_code=400, detail="Unsupported model.")
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")
+
 
 @app.post("/text-to-speech")
 async def text_to_speech(request: Request):

@@ -1,25 +1,25 @@
 MODEL_CONFIGS = {
     # Speech-to-text
-    "google_cloud_tts": {
-        "required": ["encoding", "sampleRateHertz", "languageCode", "content"],
-        "optional": ["maxAlternatives", "profanityFilter", "speechContext"]
+    "google_cloud_stt": {
+        "required": ["model", "audio"],
+        "optional": []
     },
-    "deepgram_tts": {
-        "required": [],
-        "optional": ["callback", "callback_method", "custom_topic", "custom_topic_mode", "diarize", "diarize_version", "dictation", "detect_entities", "detect_language", "detect_topics", "extra", "filler_words", "intents", "keywords", "language", "measurements", "model", "multichannel", "numerals", "paragraphs", "profanity_filter", "punctuate", "redact", "replace", "smart_format", "search", "sentiment", "summarize", "tag", "topics", "utterances", "utt_split", "version"] 
+    "deepgram_stt": {
+        "required": ["model", "audio"],
+        "optional": [] 
     },
     # Text-to-speech
     "google_cloud_tts": {
         "required": ["model", "content"],
-        "optional": ["name", "ssmlGender", "customVoice", "reportedUsage", "speakingRate", "pitch", "volumeGainDb", "sampleRateHertz"]
+        "optional": ["language_code", "name", "speaking_rate", "pitch", "volume_gain_db", "sample_rate_hertz"]
     },
     "deepgram_tts": {
         "required": ["model", "content"],
-        "optional": []
+        "optional": ["voice"]
     },
     "elevenlabs_tts": {
         "required": ["model", "content"],
-        "optional": []
+        "optional": ["voice_id", "model_id", "latency", "stability", "similarity", "style", "use_speaker_boost"]
     },
     "chat_tts": {
         "required": ["model", "content"],
