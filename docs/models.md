@@ -10,16 +10,12 @@ All Speech-to-Text API synchronous recognition requests must include a speech re
 
 More details and official documentation can be found [here](https://cloud.google.com/speech-to-text/docs/speech-to-text-requests#synchronous-requests).
 
-|        Parameters       |       Required/Optional      |                             Values                               |
-| :---------------------: | :--------------------------: | :--------------------------------------------------------------: |
-|         content         |           Required           |                  Audio to evaluate (Max 1 min)                   |
-|           uri           |           Required           |                    URI for the audio content                     |
-|         encoding        |           Required           |             Encoding scheme of the supplied audio                |
-|      sampleRateHertz    |           Required           |          Sample rate (in Hertz) of the supplied audio            |
-|       languageCode      |           Required           |          Language + Region/Locale (BCP-47 identifier)            |
-|      maxAlternatives    |           Optional           |    Number of alternative transcriptions in response (default 1)  |
-|      profanityFilter    |           Optional           |              Whether to filter out profane words                 |
-|       speechContext     |           Optional           | Contains additional contextual information for processing audio. |
+|        Parameters          |       Required/Optional      |                                       Values                                 | Value Type |
+| :------------------------: | :--------------------------: | :--------------------------------------------------------------------------: | :---------:|
+|           model            |           Required           |                                  "google_cloud_stt"                          |   String   |
+|           audio            |           Required           |                         The text to be converted to speech                   |    File    |
+|        google_model        |           Optional           |                           Model to use for transcribing                      |   String   |
+|        use_enhanced        |           Optional           |                  Whether to use an enhanced model for transcription          |   Boolean  |
 
 
 ### Deepgram Speech-to-Text
@@ -28,17 +24,12 @@ Deepgram has an accurate (22% lower word error rate) API that is fast and many t
 
 https://developers.deepgram.com/docs/tts-models
 
-|        Parameters       |       Required/Optional      |                             Values                               |
-| :---------------------: | :--------------------------: | :--------------------------------------------------------------: |
-|          model          |           Required           |  |
-|         content         |           Required           |               The text to be converted to speech                 |
-|          voice          |           Optional           |      The voice model for the audio (default: aura-asteria-en)    |
-|        language         |           Optional           | Specifies the language of the speech (default: ) |
-|         diarize         |           Optional           | Recognize speaker changes. Each word in transcript will be assigned a speaker number starting at 0. (Default false)          |
-|      diarize_version    |           Optional           | Number of alternadiarize_version |
-|        dictation        |           Optional           | Spoken dictation commands will be converted to punctuation marks. e.g., comma to , (Default false) |
-|     detect_entities     |           Optional           | Entity Detection identifies and extracts key entities from content in submitted audio (Default false) |
-
+|        Parameters          |       Required/Optional      |                                       Values                                 | Value Type |
+| :------------------------: | :--------------------------: | :--------------------------------------------------------------------------: | :---------:|
+|           model            |           Required           |                                   "deepgram_stt"                             |   String   |
+|           audio            |           Required           |                         The text to be converted to speech                   |    File    |
+|       deepgram_model       |           Optional           |                           Model to use for transcribing                      |   String   |
+|           tier             |           Optional           |              The tier of the model to use, such as "enhanced" or "base"      |   Boolean  |
 
 
 ## Text-to-speech
@@ -80,7 +71,7 @@ The complete list of model selections can be found [here](https://help.elevenlab
 |        stability           |           Optional           |                          Adjusts the stability of the voice                  |   Float    |
 |        similarity          |           Optional           |                     Enhances the similarity to the target voice              |   Float    |
 |          style             |           Optional           |                      Modifies the speaking style of the voice                |   Float    |
-|     use_speaker_boost      |           Optional           |  Enhances the voice to make it sound more like the speaker from the training | True/False |
+|     use_speaker_boost      |           Optional           |  Enhances the voice to make it sound more like the speaker from the training |  Boolean   |
 
 
 ### Deepgram TTS

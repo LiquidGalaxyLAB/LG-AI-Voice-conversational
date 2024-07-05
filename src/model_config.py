@@ -2,11 +2,11 @@ MODEL_CONFIGS = {
     # Speech-to-text
     "google_cloud_stt": {
         "required": ["model", "audio"],
-        "optional": []
+        "optional": ["google_model", "use_enhanced"]
     },
     "deepgram_stt": {
         "required": ["model", "audio"],
-        "optional": [] 
+        "optional": ["deepgram_model", "tier"] 
     },
     # Text-to-speech
     "google_cloud_tts": {
@@ -23,11 +23,10 @@ MODEL_CONFIGS = {
     },
     "chat_tts": {
         "required": ["model", "content"],
-        "optional": []
+        "optional": [],
     },
     "bark_tts": {
-        "required": ["model", "content"],
-        "optional": []
+        "required": ["model", "content"]
     },
     # Groq
     "groq": {
