@@ -188,7 +188,7 @@ async def create_chat_completion(request: Request):
     if not model_config:
         raise HTTPException(status_code=400, detail="Model config not found.")
     
-    if not model not in ["llama3-8b-8192", "llama3-70b-8192", "mixtral-8x7b-32768", "gemma-7b-it"]:
+    if model not in ["llama3-8b-8192", "llama3-70b-8192", "mixtral-8x7b-32768", "gemma-7b-it"]:
         raise HTTPException(status_code=400, detail="Model and content are required.")
     
     messages = [{"role": "user", "content": content}]
