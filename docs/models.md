@@ -87,11 +87,11 @@ The complete list of voice selections can be found [here](https://developers.dee
 |          voice          |           Optional           |                  The voice model for the audio                   |   String   |
 
 
-### ChatTTS
+<!-- ### ChatTTS
 
 ChatTTS offers several benefits, including multi-language support, making it accessible to a wide range of users. Its extensive training on approximately 10 million hours of Chinese and English data results in high-quality, natural-sounding voice synthesis. ChatTTS is well-suited for dialog tasks typically managed by LLMs, providing fluid conversations for various applications and services.
 
-The project team plans to open source a trained base model, enabling academic researchers and developers to further study and develop the technology. Additionally, the team is focused on enhancing the model's controllability, adding watermarks, and integrating it with LLMs to ensure safety and reliability. ChatTTS offers ease of use by requiring only text input to generate corresponding voice files, making it a convenient solution for voice synthesis.
+The project team plans to open source a trained base model, enabling academic researchers and developers to further study and develop the technology. Additionally, the team is focused on enhancing the model's controllability, adding watermarks, and integrating it with LLMs to ensure safety and reliability. ChatTTS offers ease of use by requiring only text input to generate corresponding voice files, making it a convenient solution for voice synthesis. -->
 
 
 ### Bark TTS

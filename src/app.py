@@ -183,7 +183,6 @@ async def create_chat_completion(request: Request):
     content = data.get("content")
     model_config = MODEL_CONFIGS.get("groq")
     client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
-    models = ["llama3-8b-8192", "llama3-70b-8192", "mixtral-8x7b-32768", "gemma-7b-it"]
 
     if not model_config:
         raise HTTPException(status_code=400, detail="Model config not found.")
