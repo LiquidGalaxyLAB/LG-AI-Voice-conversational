@@ -104,3 +104,11 @@ Used in mentor Vedant's GSoC project from last year (Voice CMS), Bark can take t
 | :---------------------: | :--------------------------: | :--------------------------------------------------------------: | :---------:|
 |          model          |           Required           |                           "bark_tts"                             |   String   |
 |         content         |           Required           |               The text to be converted to speech                 |   String   |
+
+
+## Groq TTT
+
+|        Parameters       |       Required/Optional      |                                 Values                                   | Value Type |
+| :---------------------: | :--------------------------: | :----------------------------------------------------------------------: | :---------:|
+|          model          |           Required           | "llama3-8b-8192", "llama3-70b-8192", "mixtral-8x7b-32768", "gemma-7b-it" |   String   |
+|         content         |           Required           |                  The text to be sent to the LLM model                    |   String   |
