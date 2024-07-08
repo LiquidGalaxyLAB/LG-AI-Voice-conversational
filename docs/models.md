@@ -4,9 +4,7 @@
 
 ### Google Cloud AI Speech-to-Text with Gemini
 
-Google provides a speech-to-text model API providing up to 60 minutes of transcribing audio per month using the Google Gemini model. The advanced speech AI utilizes Chirp, Google Cloud's foundation model for speech trained on a massive amount of data. Supporting 125 languages, the trained model has recognition and transcription for more spoken languages and accents which can assist many different users across the world. Providing three methods to perform this feature: synchronous, asynchronous, and streaming. Each method returns text results for post-processing, periodically, or in real-time to better suit a user's needs.
-
-All Speech-to-Text API synchronous recognition requests must include a speech recognition config field (of type RecognitionConfig). A RecognitionConfig contains the following sub-fields as shown in the table below.
+Google provides a speech-to-text model API providing up to 60 minutes of transcribing audio per month using the Google Gemini model. The advanced speech AI utilizes Chirp, Google Cloud's foundation model for speech trained on a massive amount of data. With up to 60 minutes of free transcribing of audio per month, allowing users to have minimal barriers when using the API.
 
 More details and official documentation can be found [here](https://cloud.google.com/speech-to-text/docs/speech-to-text-requests#synchronous-requests).
 
@@ -20,9 +18,9 @@ More details and official documentation can be found [here](https://cloud.google
 
 ### Deepgram Speech-to-Text
 
-Deepgram has an accurate (22% lower word error rate) API that is fast and many times cheaper than Vapi AI's services. On top of the cheap prices, Deepgram gives every new account $200 in credits, with the cheapest rate costing $0.0020/min and the most expensive costing $0.0145/min, the credits can last for 13,793 to 100,000 minutes of recording usage. If this is approved by the admins of the organization, I would need to test various models out on my own time to check for their accuracy to integrate into my app. Deepgram's voice-to-text is vastly faster than other services, being able to live-transcribe and transcribe one hour of audio in twelve seconds.
+Deepgram has an accurate (22% lower word error rate) API that is fast and many times cheaper than Vapi AI's services. On top of the cheap prices, Deepgram gives every new account $200 in credits, lastint up to 100,000 minutes of recording usage. Deepgram's voice-to-text is vastly faster than other services, being able to transcribe one hour of audio in twelve seconds.
 
-https://developers.deepgram.com/docs/tts-models
+More details and official documentation can be found [here](https://developers.deepgram.com/docs/tts-models)
 
 |        Parameters          |       Required/Optional      |                                       Values                                 | Value Type |
 | :------------------------: | :--------------------------: | :--------------------------------------------------------------------------: | :---------:|
@@ -34,16 +32,12 @@ https://developers.deepgram.com/docs/tts-models
 
 ### AssemblyAI Speech-to-Text
 
-Deepgram has an accurate (22% lower word error rate) API that is fast and many times cheaper than Vapi AI's services. On top of the cheap prices, Deepgram gives every new account $200 in credits, with the cheapest rate costing $0.0020/min and the most expensive costing $0.0145/min, the credits can last for 13,793 to 100,000 minutes of recording usage. If this is approved by the admins of the organization, I would need to test various models out on my own time to check for their accuracy to integrate into my app. Deepgram's voice-to-text is vastly faster than other services, being able to live-transcribe and transcribe one hour of audio in twelve seconds.
-
-https://developers.deepgram.com/docs/tts-models
+AssemblyAI's speech-to-text models have the industry’s lowest Word Error Rate (WER), providing an accuracy rate of 92.5%+ resulting from 12.5 million hours of training data.
 
 |        Parameters          |       Required/Optional      |                                       Values                                 | Value Type |
 | :------------------------: | :--------------------------: | :--------------------------------------------------------------------------: | :---------:|
-|           model            |           Required           |                                   "deepgram_stt"                             |   String   |
+|           model            |           Required           |                                  "assemblyai_stt"                            |   String   |
 |           audio            |           Required           |                         The text to be converted to speech                   |    File    |
-|       deepgram_model       |           Optional           |                           Model to use for transcribing                      |   String   |
-|           tier             |           Optional           |              The tier of the model to use, such as "enhanced" or "base"      |   Boolean  |
 
 
 ## Text-to-speech
@@ -51,7 +45,7 @@ https://developers.deepgram.com/docs/tts-models
 
 ### Google Cloud AI with WaveNet TTS
 
-The Google Cloud AI's text-to-speech API allows users to input text and get back an audio file in response, providing natural-sounding audio which can be customizable with options such as language, gender, and accent for all users to use the app. WaveNet was one of the first text-to-speech models that sounded natural-sounding speech, starting at Google Deepmind. The pricing is very feasible for our use cases, as the WaveNet model's usage is free of charge for every 1 million characters per month.
+The Google Cloud AI's text-to-speech API allows users to input text and get back an audio file in response, providing natural-sounding audio which can be customizable with options such as language, gender, and accent for all users to use the app. WaveNet was one of the first text-to-speech models that sounded natural-sounding speech, starting at Google Deepmind. The WaveNet model usage is free of charge for every 1 million characters per month.
 
 More details and official documentation can be found [here](https://cloud.google.com/text-to-speech/docs/basics).
 
@@ -69,7 +63,7 @@ More details and official documentation can be found [here](https://cloud.google
 
 ### ElevenLabs TTS
 
-This API generates an MP3 file from text in 29 languages, which can be customized to provide accessibility to as many users in the world as we can. With its very low latency of approximately 400ms using the Turbo model, this API can provide fast results so users don't have a large delay when waiting for a response back from the app combined with Groq's LPU. The feature provides a free tier allowing up to 10,000 characters per month, which may be too little considering we have users from around the world who may use our app. The pricing isn't too cheap considering other options, but the multi-language feature is appealing to allow everyone to use the app.
+With its very low latency of approximately 400ms using the Turbo model, this API can provide fast results so users don't have a large delay when using our applications. ElevenLabs provides a free tier allowing up to 10,000 characters per month.
 
 The complete list of voice selections can be found [here](https://elevenlabs.io/docs/voices/premade-voices#current-premade-voices).
 
@@ -103,9 +97,7 @@ The complete list of voice selections can be found [here](https://developers.dee
 
 ### Bark TTS
 
-Bark is a text-to-speech model by Suno AI, which will be used as the final layer in the application's process to help us voice the story generated by our LLM model to the tablet so users can listen to it. Not only does this provide accessibility features so everyone can enjoy the application, but it is also a way to integrate the latest growth of AI into Liquid Galaxy applications one step at a time.
-
-Used in mentor Vedant's GSoC project from last year (Voice CMS), Bark can take text and generate a voice to read the given input. Bark's API processes the given text and produces a WAV file, which will be opened automatically on the local devices to initiate the narration upon generation of the audio file.
+Bark is a text-to-speech model by Suno AI, which was used in mentor Vedant's project (Voice CMS) last year, which is a free API we can use to transcribe text to speech.
 
 |        Parameters       |       Required/Optional      |                             Values                               | Value Type |
 | :---------------------: | :--------------------------: | :--------------------------------------------------------------: | :---------:|
@@ -114,6 +106,8 @@ Used in mentor Vedant's GSoC project from last year (Voice CMS), Bark can take t
 
 
 ## Groq TTT
+
+Groq is an LPU that speeds up LLM responses, and it is free to use for our applications traffic. It provides various models for users to select, so they are able to test which one fits best to reduce any latency when users use our apps.
 
 |        Parameters       |       Required/Optional      |                                 Values                                   | Value Type |
 | :---------------------: | :--------------------------: | :----------------------------------------------------------------------: | :---------:|
