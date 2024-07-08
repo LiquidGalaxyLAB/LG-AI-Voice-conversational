@@ -1,6 +1,5 @@
 import os
 import uuid
-import ChatTTS
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request, UploadFile, File, Form
 from fastapi.responses import FileResponse, JSONResponse
@@ -8,9 +7,11 @@ from groq import Groq
 from bark import SAMPLE_RATE, generate_audio
 from elevenlabs import VoiceSettings
 from elevenlabs.client import ElevenLabs
-from deepgram import DeepgramClient, ClientOptionsFromEnv, SpeakOptions, FileSource, PrerecordedOptions
+from deepgram import DeepgramClient, FileSource, PrerecordedOptions
 from google.cloud import texttospeech
 from google.cloud import speech
+from openai import OpenAI
+import assemblyai as aai
 from IPython.display import Audio
 from scipy.io.wavfile import write as write_wav
 from tempfile import NamedTemporaryFile
@@ -26,10 +27,10 @@ async def speech_to_text(
     google_model: str = Form("default"),
     use_enhanced: bool = Form(False),
     deepgram_model: str = Form("nova-2"),
-    tier: str = Form(None)
+    tier: str = Form(None),
 ):
     try:
-        if model not in ["deepgram_stt", "google_cloud_stt"]:
+        if model not in ["deepgram_stt", "google_cloud_stt", "assemblyai_stt", "openai_stt"]:
             raise HTTPException(status_code=400, detail="Model not found.")
 
         audio_bytes = await audio.read()
@@ -58,12 +59,23 @@ async def speech_to_text(
             response = client.recognize(config=config, audio=audio_content)
             transcript = response.results[0].alternatives[0].transcript
             return JSONResponse(content={"transcript": transcript})
+        
+        elif model == "assemblyai_stt":
+            aai.settings.api_key = os.getenv("ASSEMBLYAI_API_KEY")
+            if not aai.settings.api_key:
+                raise ValueError("ASSEMBLYAI_API_KEY is missing.")
 
-        raise HTTPException(status_code=400, detail="Unsupported model.")
+            transcriber = aai.Transcriber()
+            with NamedTemporaryFile(delete=False, suffix=".wav") as temp_file:
+                temp_file.write(audio_bytes)
+                temp_file_path = temp_file.name
+
+            transcript_response = transcriber.transcribe(temp_file_path)
+            if transcript_response.status == aai.TranscriptStatus.error:
+                raise HTTPException(status_code=500, detail=f"AssemblyAI error: {transcript_response.error}")
+            return JSONResponse(content={"transcript": transcript_response.text})
 
     except Exception as e:
-        import traceback
-        traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")
 
 @app.post("/text-to-speech")
@@ -152,27 +164,10 @@ async def text_to_speech(request: Request):
                     if chunk:
                         f.write(chunk)
             return FileResponse(save_file_path, media_type="audio/mpeg", filename="elevenlabs.mp3")
-        
-        # if model == "chatt_tts":
-    #     try:
-    #         chat = ChatTTS.Chat()
-    #         chat.load_models()
-    #         wavs = chat.infer([content], use_decoder=True)
-
-    #         with NamedTemporaryFile(delete=False, suffix=".wav") as temp_file:
-    #             write_wav(temp_file.name, 24000, wavs[0])
-    #             temp_file_path = temp_file.name
-    #         return FileResponse(temp_file_path, media_type="audio/wav", filename="chatt_tts.wav")
-
-    #     except Exception as e:
-    #         raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")
-
         else:
             raise HTTPException(status_code=400, detail="Model not found.")
 
     except Exception as e:
-        import traceback
-        traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")
 
 

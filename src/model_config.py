@@ -8,6 +8,10 @@ MODEL_CONFIGS = {
         "required": ["model", "audio"],
         "optional": ["deepgram_model", "tier"] 
     },
+    "assemblyai_stt": {
+        "required": ["model", "audio"],
+        "optional": []
+    },
     # Text-to-speech
     "google_cloud_tts": {
         "required": ["model", "content"],
@@ -20,10 +24,6 @@ MODEL_CONFIGS = {
     "elevenlabs_tts": {
         "required": ["model", "content"],
         "optional": ["voice_id", "model_id", "latency", "stability", "similarity", "style", "use_speaker_boost"]
-    },
-    "chat_tts": {
-        "required": ["model", "content"],
-        "optional": [],
     },
     "bark_tts": {
         "required": ["model", "content"]

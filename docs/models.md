@@ -32,6 +32,20 @@ https://developers.deepgram.com/docs/tts-models
 |           tier             |           Optional           |              The tier of the model to use, such as "enhanced" or "base"      |   Boolean  |
 
 
+### AssemblyAI Speech-to-Text
+
+Deepgram has an accurate (22% lower word error rate) API that is fast and many times cheaper than Vapi AI's services. On top of the cheap prices, Deepgram gives every new account $200 in credits, with the cheapest rate costing $0.0020/min and the most expensive costing $0.0145/min, the credits can last for 13,793 to 100,000 minutes of recording usage. If this is approved by the admins of the organization, I would need to test various models out on my own time to check for their accuracy to integrate into my app. Deepgram's voice-to-text is vastly faster than other services, being able to live-transcribe and transcribe one hour of audio in twelve seconds.
+
+https://developers.deepgram.com/docs/tts-models
+
+|        Parameters          |       Required/Optional      |                                       Values                                 | Value Type |
+| :------------------------: | :--------------------------: | :--------------------------------------------------------------------------: | :---------:|
+|           model            |           Required           |                                   "deepgram_stt"                             |   String   |
+|           audio            |           Required           |                         The text to be converted to speech                   |    File    |
+|       deepgram_model       |           Optional           |                           Model to use for transcribing                      |   String   |
+|           tier             |           Optional           |              The tier of the model to use, such as "enhanced" or "base"      |   Boolean  |
+
+
 ## Text-to-speech
 
 
@@ -85,13 +99,6 @@ The complete list of voice selections can be found [here](https://developers.dee
 |          model          |           Required           |                         "deepgram_tts"                           |   String   |
 |         content         |           Required           |               The text to be converted to speech                 |   String   |
 |          voice          |           Optional           |                  The voice model for the audio                   |   String   |
-
-
-<!-- ### ChatTTS
-
-ChatTTS offers several benefits, including multi-language support, making it accessible to a wide range of users. Its extensive training on approximately 10 million hours of Chinese and English data results in high-quality, natural-sounding voice synthesis. ChatTTS is well-suited for dialog tasks typically managed by LLMs, providing fluid conversations for various applications and services.
-
-The project team plans to open source a trained base model, enabling academic researchers and developers to further study and develop the technology. Additionally, the team is focused on enhancing the model's controllability, adding watermarks, and integrating it with LLMs to ensure safety and reliability. ChatTTS offers ease of use by requiring only text input to generate corresponding voice files, making it a convenient solution for voice synthesis. -->
 
 
 ### Bark TTS
