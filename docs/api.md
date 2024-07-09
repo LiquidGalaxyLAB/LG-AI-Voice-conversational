@@ -2,11 +2,11 @@
 
 ## Overview
 
-This API provides endpoints for speech-to-text (STT) and text-to-speech (TTS) conversions using the various models. It also supports muting/unmuting the microphone to allow users to easily integrate the feature into their application.
+This API provides endpoints for speech-to-text, text-to-speech, and text-to-text via Groq using various models to allow for users to have more flexibility in their options.
 
 ## Running the Server
 
-Ensure [Docker](https://www.docker.com/products/docker-desktop/) is installed.
+Ensure [Docker](https://www.docker.com/products/docker-desktop/) is installed and running.
 
 Navigate to the `src` directory.
 
@@ -25,7 +25,27 @@ docker run -p 8000:8000 voice-integration-api
 
 Create a `.env` in the `src/` directory and set each appropriate API keys as `MODEL_API_KEY`, where `MODEL` is replaced by the model you are using.
 
+- ELEVENLABS_API_KEY
+    - Key can be generated [here](https://elevenlabs.io/app/speech-synthesis) under `Profile + API Key`.
+- DEEPGRAM_API_KEY
+    - Key can be generated [here](https://console.deepgram.com/).
+- ASSEMBLYAI_API_KEY
+    - Key can be generated [here](https://www.assemblyai.com/app).
+- GROQ_API_KEY
+    - Key can be generated [here](https://console.groq.com/keys).
+- GOOGLE_APPLICATION_CREDENTIALS
+    - Navigate to https://console.cloud.google.com/.
+    - Create a project for you application.
+    - In the left sidebar, go to `IAM & Admin` -> `Service Accounts`.
+    - Click `Create Service Account` and create an account.
+    - In the account you created, click the three dots on the right and.select `Manage keys`.
+    - Click `Add key` -> `Create new key`.
+    - Select JSON as the key type and click `Create`. This will store your key as a JSON file, which you need to add to your project locally.
+    - In your `.env` file, add the line `export GOOGLE_APPLICATION_CREDENTIALS="/path/to/your/json-file.json`.
+
 ## API Endpoints
+
+The API is configured in such a way that users can pass in all the fields can be passed in as one JSON object. The models documentation has a list of all required and optional parameters for each model, where contributors can decide to customize the usage.
 
 ### Speech-to-Text
 
@@ -37,13 +57,9 @@ Method: `POST`
 
 Headers: `Content-Type: application/json`
 
-Request Body: Raw audio data.
-
-An object that contains all fields that are passed into the specific API.
-
 `200 OK`: On success, returns the transcribed text.
 
-`400 Bad Request`: If required parameters for the model is missing.
+`400 Bad Request`: If required parameters are missing.
 
 ### Text-to-Speech
 
@@ -55,15 +71,11 @@ Method: `POST`
 
 Headers: `Content-Type: application/json`
 
-Request Body:
-
-An object that contains all fields that are passed into the specific API.
-
 Response:
 
 `200 OK`: On success, returns the audio data.
 
-`400 Bad Request`: If required parameters for the model is missing.
+`400 Bad Request`: If required parameters are missing.
 
 ### Groq
 
@@ -75,32 +87,8 @@ Method: `POST`
 
 Headers: `Content-Type: application/json`
 
-Request Body:
-
-A `JSON object` containing `model`, and `content`, where content is a string of the messsage being sent to the LLM model, and model is one of:
-
-- llama3-8b-8192
-- llama3-70b-8192
-- mixtral-8x7b-32768"
-- gemma-7b-it
-
-Example input:
-
-```
-{
-    "model": "gemma-7b-it",
-    "content": "How are you doing?"
-}
-```
-
 Response:
 
-`200 OK`: On success, returns the audio data:
+`200 OK`: On success, returns the text data.
 
-```
-{
-    "content": "As a language model, I do not have personal experiences or physical health. However, I am functioning optimally and ready to assist you with any information or task you may have for me. How can I help you today?"
-}
-```
-
-`400 Bad Request`: If required parameters for the model is missing.
+`400 Bad Request`: If required parameters are missing.
