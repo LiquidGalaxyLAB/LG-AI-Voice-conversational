@@ -111,5 +111,5 @@ Groq is an LPU that speeds up LLM responses, and it is free to use for our appli
 
 |        Parameters       |       Required/Optional      |                                 Values                                   | Value Type |
 | :---------------------: | :--------------------------: | :----------------------------------------------------------------------: | :---------:|
-|          model          |           Required           | "llama3-8b-8192", "llama3-70b-8192", "mixtral-8x7b-32768", "gemma-7b-it" |   String   |
+|          model          |           Required           | "llama3-8b-8192", "llama3-70b-8192", "mixtral-8x7b-32768", "gemma-7b-it", "gemma2-9b-it" |   String   |
 |         content         |           Required           |                  The text to be sent to the LLM model                    |   String   |
