@@ -1,21 +1,19 @@
 # Model Pricing Documentation
 
-The following is a documentation of all the models 
+The following is a documentation of all pricing of the models used in the API.
 
-## Google Cloud AI Speech-to-Text with Gemini
+## Speech-to-Text Models
 
-### Pricing for Speech-to-Text V1 API
+|     Models     |           Free Usage    	    | Normal Pricing |
+| :------------: | :--------------------------: | :------------: | 
+|   Google STT   |   Upto 60 minutes per month  |   $0.024/min   |
+|  Deepgram STT  | Free one-time $200 of credit |  $0.0043/min   |
+| AssemblyAI STT |    Upto 100 hours of audio   |  $0.002/min    |
 
-|        Category       |              Models          |   0-60 Minutes/Month	   | 	Over 60 Minutes/Month |
-| :-------------------------: | :-----------------------------------: | :----------------: | :--: | 
-| Speech Recognition (without data logging - default) |      Standard | Free     |    $0.024 / minute     |
-| Speech Recognition (without data logging - default)          |                 Medical               | Free | $0.078 / minute
-|          Speech Recognition (with data logging opt-in)           |                Standard               |   Free   |         $0.016 / minute |
+## Text-to-Speech Models
 
-### Pricing for Speech-to-Text V2 API
-
-|        Category       |              Models          |   0-500,000 minutes / month	   | 	500,000-1,000,000 minutes / month | 1,000,000-2,000,000 minutes / month | 2,000,000+ minutes / month |
-| :-------------------------: | :-----------------------------------: | :----------------: | :--: | :--: | :--: | 
-| Speech recognition (default) |      Standard | $0.016 / minute   | $0.010 / minute | $0.008 / minute |    $0.004 / minute     |
-| Speech recognition (default)          |                 Medical               | 	$0.078 / minute | $0.078 / minute | 	$0.078 / minute | 	$0.078 / minute |
-|          Dynamic batch speech recognition           |                Standard               |   $0.003 / minute   |         $0.003 / minute |$0.003 / minute | $0.003 / minute |
+|     Models     |          Free Usage    	    |                   Normal Pricing                   |
+| :------------: | :--------------------------: | :------------------------------------------------: | 
+|   Google TTS   |         1M characters        |                $0.000016/character                 |
+| ElevenLabs TTS |      10K characters/month    | $5/30K characters/month, $11/100K characters/month |
+|  Deepgram TTS  | Free one-time $200 of credit |                $0.000015/character                 |
