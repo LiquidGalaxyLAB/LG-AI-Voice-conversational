@@ -8,11 +8,12 @@ The table below lists all the models used in the project:
 ## AI Models
 
 |        Speech-to-Text       |              Text-to-Speech           |   LLM (via Groq)   |
-| :-------------------------: | :-----------------------------------: | :----------------: | 
-| Google Cloud AI with Gemini |      Google Cloud AI with WaveNet     |    Gemma-7b-It     |
-|          Deepgram           |                Deepgram               | Mixtral-8x7b-32768 |
-|         AssemblyAI          |               llElevenLabs            |   Llama3-8b-8192   |
-|                             |                  Bark                 |   Llama3-70b-8192  |
+| :-------------------------: | :-----------------------------------: | :----------------: |
+| Google Cloud AI with Gemini |      Google Cloud AI with WaveNet     |    Gemma2-9b-it    |
+|          Deepgram           |                Deepgram               |    Gemma-7b-It     |
+|         AssemblyAI          |              llElevenLabs             | Mixtral-8x7b-32768 |
+|                             |                  Bark                 |   Llama3-8b-8192   |
+|                             |                                       |   Llama3-70b-8192  |
 
 
 ## Model Documentation
