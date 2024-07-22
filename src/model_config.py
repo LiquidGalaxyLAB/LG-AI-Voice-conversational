@@ -25,9 +25,6 @@ MODEL_CONFIGS = {
         "required": ["model", "content"],
         "optional": ["voice_id", "model_id", "latency", "stability", "similarity", "style", "use_speaker_boost"]
     },
-    "bark_tts": {
-        "required": ["model", "content"]
-    },
     # Groq
     "groq": {
         "required": ["model", "content"]

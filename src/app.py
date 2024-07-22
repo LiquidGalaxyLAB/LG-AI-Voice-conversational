@@ -122,13 +122,6 @@ async def text_to_speech(request: Request):
                 temp_file_path, media_type="audio/wav", filename="google_cloud.wav"
             )
         
-        elif model == "bark_tts":
-            audio_array = generate_audio(content)
-            with NamedTemporaryFile(delete=False, suffix=".wav") as temp_file:
-                write_wav(temp_file.name, SAMPLE_RATE, audio_array)
-                temp_file_path = temp_file.name
-            return FileResponse(temp_file_path, media_type="audio/wav", filename="bark.wav")
-        
         elif model == "elevenlabs_tts":
             ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY")
             if not ELEVENLABS_API_KEY:
