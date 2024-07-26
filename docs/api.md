@@ -18,7 +18,7 @@ docker build -t voice-integration-api .
 
 Run the container:
 ```
-docker run -p 8000:8000 voice-integration-api
+docker run -p 8440:8440 voice-integration-api
 ```
 
 ## Authorizaion
@@ -42,6 +42,8 @@ Create a `.env` in the `src/` directory and set each appropriate API keys as `MO
     - Click `Add key` -> `Create new key`.
     - Select JSON as the key type and click `Create`. This will store your key as a JSON file, which you need to add to your project locally.
     - In your `.env` file, add the line `export GOOGLE_APPLICATION_CREDENTIALS="/path/to/your/json-file.json`.
+    - To enable the Google Cloud Speech-to-Text API, head [here](https://console.cloud.google.com/apis/api/speech.googleapis.com) and enable the API for your project.
+    - To enable the Google Cloud Text-to-Speech API, head [here](https://console.cloud.google.com/apis/api/texttospeech.googleapis.com) and enable the API for your project.
 
 ## API Endpoints
 
@@ -55,7 +57,7 @@ URL:`/speech-to-text`
 
 Method: `POST`
 
-Headers: `Content-Type: application/json`
+Body: `Content-Type: application/json`
 
 `200 OK`: On success, returns the transcribed text.
 
