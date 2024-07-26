@@ -59,6 +59,15 @@ Method: `POST`
 
 Body: `Content-Type: application/json`
 
+Example:
+
+```
+{
+  "model": "google_cloud_stt",
+  "audio": "<audio_file_content>"
+}
+```
+
 `200 OK`: On success, returns the transcribed text.
 
 `400 Bad Request`: If required parameters are missing.
@@ -71,7 +80,17 @@ URL: `/text-to-speech`
 
 Method: `POST`
 
-Headers: `Content-Type: application/json`
+Body: `Content-Type: application/json`
+
+Example:
+
+```
+{
+  "model": "google_cloud_tts",
+  "content": "Hello, how are you doing today?"
+}
+
+```
 
 Response:
 
@@ -87,10 +106,44 @@ URL: `/groq`
 
 Method: `POST`
 
-Headers: `Content-Type: application/json`
+Body: `Content-Type: application/json`
+
+Example:
+
+```
+{
+  "model": "gemma-9b-it",
+  "content": "Hello, How are you doing today?"
+}
+```
 
 Response:
 
 `200 OK`: On success, returns the text data.
 
 `400 Bad Request`: If required parameters are missing.
+
+## Example API Call in Flutter
+
+```
+import 'package:http/http.dart' as http;
+
+Future<void> callAPI(String url, String model, String content) async {
+  var response = await http.post(
+    Uri.parse(url),
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: {
+      "model": model,
+      "content": content
+    }
+  );
+
+  if (response.statusCode == 200) {
+    print("API Call Successful: ${response.body}");
+  } else {
+    print("Failed to call API: ${response.statusCode}");
+  }
+}
+```
