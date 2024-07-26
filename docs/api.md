@@ -53,7 +53,7 @@ The API is configured in such a way that users can pass in all the fields can be
 
 Convert audio to text using a specified model.
 
-URL:`/speech-to-text`
+URL:`http://localhost:8440/speech-to-text`
 
 Method: `POST`
 
@@ -76,7 +76,7 @@ Example:
 
 Convert text to audio using a specified model.
 
-URL: `/text-to-speech`
+URL: `http://localhost:8440/text-to-speech`
 
 Method: `POST`
 
@@ -102,7 +102,7 @@ Response:
 
 Sends text to the Groq LPU and responds with the response message.
 
-URL: `/groq`
+URL: `http://localhost:8440/groq`
 
 Method: `POST`
 
