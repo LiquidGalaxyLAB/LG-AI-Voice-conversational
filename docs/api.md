@@ -127,23 +127,26 @@ Response:
 
 ```
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-Future<void> callAPI(String url, String model, String content) async {
+Future<Map<String, dynamic>> callAPI(String url, String model, String content) async {
   var response = await http.post(
     Uri.parse(url),
     headers: {
       "Content-Type": "application/json"
     },
-    body: {
+    body: jsonEncode({
       "model": model,
       "content": content
-    }
+    })
   );
 
   if (response.statusCode == 200) {
-    print("API Call Successful: ${response.body}");
+    print("API Call Successful");
+    return jsonDecode(response.body);
   } else {
     print("Failed to call API: ${response.statusCode}");
+    throw Exception('Failed to load data');
   }
 }
 ```
