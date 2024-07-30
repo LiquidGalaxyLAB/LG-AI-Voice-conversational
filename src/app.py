@@ -7,7 +7,7 @@ from groq import Groq
 from bark import SAMPLE_RATE, generate_audio
 from elevenlabs import VoiceSettings
 from elevenlabs.client import ElevenLabs
-from deepgram import DeepgramClient, FileSource, PrerecordedOptions
+from deepgram import DeepgramClient, ClientOptionsFromEnv, FileSource, PrerecordedOptions, SpeakOptions
 from google.cloud import texttospeech
 from google.cloud import speech
 from openai import OpenAI
@@ -85,7 +85,7 @@ async def text_to_speech(request: Request):
         model = data.get("model")
         content = data.get("content")
 
-        if model not in ["google_cloud_tts", "bark_tts", "elevenlabs_tts", "deepgram_tts", "chat_tts"]:
+        if model not in ["google_cloud_tts", "bark_tts", "elevenlabs_tts", "deepgram_tts"]:
             raise HTTPException(status_code=400, detail="Model not found.")
 
         if model == "google_cloud_tts":
@@ -121,6 +121,16 @@ async def text_to_speech(request: Request):
             return FileResponse(
                 temp_file_path, media_type="audio/wav", filename="google_cloud.wav"
             )
+        
+        elif model == "deepgram_tts":
+            DEEPGRAM_API_KEY = os.getenv("DEEPGRAM_API_KEY")
+
+            if not DEEPGRAM_API_KEY:
+                raise ValueError("DEEPGRAM_API_KEY is missing.")
+            deepgram = DeepgramClient(api_key=DEEPGRAM_API_KEY, config=ClientOptionsFromEnv())
+            options = SpeakOptions(model="aura-asteria-en")
+            response = await deepgram.asyncspeak.v("1").save("deepgram.mp3", {"text": content}, options)
+            return FileResponse("deepgram.mp3", media_type="audio/mpeg", filename="deepgram_generation.mp3")
         
         elif model == "elevenlabs_tts":
             ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY")
