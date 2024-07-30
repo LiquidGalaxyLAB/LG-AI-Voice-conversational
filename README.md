@@ -1,6 +1,6 @@
 # LG AI Voice Conversation
 
-Documentation to integrate AI voices to LG applications. The REST API is split into three endpoints: speech-to-text, text-to-text via Groq, and text-to-speech. The documentation is split into three seperate pages, one for all the model descriptions with required and optional parameters, one for how to setup and use the API, and a pricing documentation.
+Documentation to integrate AI voices to LG applications. The REST API is split into three endpoints: speech-to-text, text-to-text via Groq, and text-to-speech. The documentation is split into three separate pages, one for all the model descriptions with required and optional parameters, one for how to setup and use the API, and a pricing documentation.
 
 The table below lists all the models used in the project:
 
@@ -15,15 +15,17 @@ The table below lists all the models used in the project:
 |                             |                                       |   Llama3-8b-8192   |
 |                             |                                       |   Llama3-70b-8192  |
 
-
-## Model Documentation
-
-Link to the description of the models and costs are [here](./docs/models.md).
+To get started, navigate to the API documentation below to start setting up the environment and usage of the voice-to-voice API.
 
 
 ## API Documentation
 
 Link to the API usage for voice-to-voice integrations for LG apps are [here](./docs/api.md).
+
+
+## Model Documentation
+
+Link to the description of the models and costs are [here](./docs/models.md).
 
 
 ## Pricing

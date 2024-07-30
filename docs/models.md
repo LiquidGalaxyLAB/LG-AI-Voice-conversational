@@ -4,7 +4,7 @@
 
 ### Google Cloud AI Speech-to-Text with Gemini
 
-Google provides a speech-to-text model API providing up to 60 minutes of transcribing audio per month using the Google Gemini model. The advanced speech AI utilizes Chirp, Google Cloud's foundation model for speech trained on a massive amount of data. With up to 60 minutes of free transcribing of audio per month, allowing users to have minimal barriers when using the API.
+Google provides a speech-to-text model API providing up to 60 minutes of transcribing audio per month using the Google Gemini model. The advanced speech AI utilizes Chirp, Google Cloud's foundation model for speech trained on a millions of hours of unsupervised audio data. With up to 60 minutes of free transcribing of audio per month, allowing users to have minimal barriers when using the API.
 
 More details and official documentation can be found [here](https://cloud.google.com/speech-to-text/docs/speech-to-text-requests#synchronous-requests).
 
@@ -18,7 +18,7 @@ More details and official documentation can be found [here](https://cloud.google
 
 ### Deepgram Speech-to-Text
 
-Deepgram has an accurate (22% lower word error rate) API that is fast and many times cheaper than Vapi AI's services. On top of the cheap prices, Deepgram gives every new account $200 in credits, lastint up to 100,000 minutes of recording usage. Deepgram's voice-to-text is vastly faster than other services, being able to transcribe one hour of audio in twelve seconds.
+On top of the cheap prices, Deepgram gives every new account $200 in credits, lasting up to 100,000 minutes of recording usage. Deepgram's voice-to-text is vastly faster than other services, being able to transcribe one hour of audio in twelve seconds.
 
 More details and official documentation can be found [here](https://developers.deepgram.com/docs/tts-models)
 
@@ -95,21 +95,11 @@ The complete list of voice selections can be found [here](https://developers.dee
 |          voice          |           Optional           |                  The voice model for the audio                   |   String   |
 
 
-### Bark TTS
-
-Bark is a text-to-speech model by Suno AI, which was used in mentor Vedant's project (Voice CMS) last year, which is a free API we can use to transcribe text to speech.
-
-|        Parameters       |       Required/Optional      |                             Values                               | Value Type |
-| :---------------------: | :--------------------------: | :--------------------------------------------------------------: | :---------:|
-|          model          |           Required           |                           "bark_tts"                             |   String   |
-|         content         |           Required           |               The text to be converted to speech                 |   String   |
-
-
 ## Groq TTT
 
-Groq is an LPU that speeds up LLM responses, and it is free to use for our applications traffic. It provides various models for users to select, so they are able to test which one fits best to reduce any latency when users use our apps.
+Groq is a hardware and software platform that delivers exceptional compute speed, and quality (an LPU Inference). Free for us to use, Groq will speed up the results of the LLM to the user upto 20 times faster for the contributors to use in their projects.
 
-|        Parameters       |       Required/Optional      |                                 Values                                   | Value Type |
-| :---------------------: | :--------------------------: | :----------------------------------------------------------------------: | :---------:|
-|          model          |           Required           | "llama3-8b-8192", "llama3-70b-8192", "mixtral-8x7b-32768", "gemma-7b-it", "gemma2-9b-it" |   String   |
-|         content         |           Required           |                  The text to be sent to the LLM model                    |   String   |
+|        Parameters       |       Required/Optional      |                                            Values                                        | Value Type  |
+| :---------------------: | :--------------------------: | :--------------------------------------------------------------------------------------: | :---------: |
+|          model          |           Required           | "llama3-8b-8192", "llama3-70b-8192", "mixtral-8x7b-32768", "gemma-7b-it", "gemma2-9b-it" |   String    |
+|         content         |           Required           |                  The text to be sent to the LLM model                                    |   String    |

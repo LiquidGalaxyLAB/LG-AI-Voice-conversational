@@ -4,13 +4,11 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request, UploadFile, File, Form
 from fastapi.responses import FileResponse, JSONResponse
 from groq import Groq
-from bark import SAMPLE_RATE, generate_audio
 from elevenlabs import VoiceSettings
 from elevenlabs.client import ElevenLabs
 from deepgram import DeepgramClient, ClientOptionsFromEnv, FileSource, PrerecordedOptions, SpeakOptions
 from google.cloud import texttospeech
 from google.cloud import speech
-from openai import OpenAI
 import assemblyai as aai
 from IPython.display import Audio
 from scipy.io.wavfile import write as write_wav
@@ -30,7 +28,7 @@ async def speech_to_text(
     tier: str = Form(None),
 ):
     try:
-        if model not in ["deepgram_stt", "google_cloud_stt", "assemblyai_stt", "openai_stt"]:
+        if model not in ["deepgram_stt", "google_cloud_stt", "assemblyai_stt"]:
             raise HTTPException(status_code=400, detail="Model not found.")
 
         audio_bytes = await audio.read()
@@ -85,7 +83,7 @@ async def text_to_speech(request: Request):
         model = data.get("model")
         content = data.get("content")
 
-        if model not in ["google_cloud_tts", "bark_tts", "elevenlabs_tts", "deepgram_tts"]:
+        if model not in ["google_cloud_tts", "elevenlabs_tts", "deepgram_tts"]:
             raise HTTPException(status_code=400, detail="Model not found.")
 
         if model == "google_cloud_tts":

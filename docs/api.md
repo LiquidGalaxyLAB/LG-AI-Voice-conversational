@@ -6,7 +6,7 @@ This API provides endpoints for speech-to-text, text-to-speech, and text-to-text
 
 ## Running the Server
 
-Ensure [Docker](https://www.docker.com/products/docker-desktop/) is installed and running.
+Ensure [Docker Desktop](https://www.docker.com/products/docker-desktop/) is installed and have the application open while using the API.
 
 Navigate to the `src` directory.
 
@@ -21,7 +21,7 @@ Run the container:
 docker run -p 8440:8440 voice-integration-api
 ```
 
-## Authorizaion
+## Authorization
 
 Create a `.env` in the `src/` directory and set each appropriate API keys as `MODEL_API_KEY`, where `MODEL` is replaced by the model you are using.
 
@@ -57,7 +57,7 @@ URL:`http://localhost:8440/speech-to-text`
 
 Method: `POST`
 
-Body: `Content-Type: application/json`
+Headers: `Content-Type: application/json`
 
 Example:
 
@@ -80,7 +80,7 @@ URL: `http://localhost:8440/text-to-speech`
 
 Method: `POST`
 
-Body: `Content-Type: application/json`
+Headers: `Content-Type: application/json`
 
 Example:
 
@@ -106,7 +106,7 @@ URL: `http://localhost:8440/groq`
 
 Method: `POST`
 
-Body: `Content-Type: application/json`
+Headers: `Content-Type: application/json`
 
 Example:
 
