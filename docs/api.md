@@ -41,7 +41,7 @@ Create a `.env` in the `src/` directory and set each appropriate API keys as `MO
     - In the account you created, click the three dots on the right and.select `Manage keys`.
     - Click `Add key` -> `Create new key`.
     - Select JSON as the key type and click `Create`. This will store your key as a JSON file, which you need to add to your project locally.
-    - In your `.env` file, add the line `export GOOGLE_APPLICATION_CREDENTIALS="/path/to/your/json-file.json`.
+    - In your `.env` file, add the line `export GOOGLE_APPLICATION_CREDENTIALS="/path/to/your/json-file.json"`.
     - To enable the Google Cloud Speech-to-Text API, head [here](https://console.cloud.google.com/apis/api/speech.googleapis.com) and enable the API for your project.
     - To enable the Google Cloud Text-to-Speech API, head [here](https://console.cloud.google.com/apis/api/texttospeech.googleapis.com) and enable the API for your project.
 
