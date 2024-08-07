@@ -110,6 +110,15 @@ docker-compose --version
 ```
 
 
+### Clone the LG-AI-Voice-Conversational Repository
+
+Clone then navigate to the `src/` directory within the project:
+
+```
+git clone https://github.com/LiquidGalaxyLAB/LG-AI-Voice-conversational
+```
+
+
 ### Migrate Passwords
 
 Add the `.env` and the `password.json` file into the `/src` directory of the repository.
