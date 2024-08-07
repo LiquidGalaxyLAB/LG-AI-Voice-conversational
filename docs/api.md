@@ -1,25 +1,10 @@
 # Voice Integration API Documentation
 
+
 ## Overview
 
 This API provides endpoints for speech-to-text, text-to-speech, and text-to-text via Groq using various models to allow for users to have more flexibility in their options.
 
-## Running the Server
-
-Ensure [Docker Desktop](https://www.docker.com/products/docker-desktop/) is installed and have the application open while using the API.
-
-Navigate to the `src` directory.
-
-Build the Docker image:
-
-```
-docker build -t voice-integration-api .
-```
-
-Run the container:
-```
-docker run -p 8440:8440 voice-integration-api
-```
 
 ## Authorization
 
@@ -44,6 +29,114 @@ Create a `.env` in the `src/` directory and set each appropriate API keys as `MO
     - In your `.env` file, add the line `export GOOGLE_APPLICATION_CREDENTIALS="/path/to/your/json-file.json"`.
     - To enable the Google Cloud Speech-to-Text API, head [here](https://console.cloud.google.com/apis/api/speech.googleapis.com) and enable the API for your project.
     - To enable the Google Cloud Text-to-Speech API, head [here](https://console.cloud.google.com/apis/api/texttospeech.googleapis.com) and enable the API for your project.
+
+
+## Running the Server Locally
+
+Ensure [Docker Desktop](https://www.docker.com/products/docker-desktop/) is installed and have the application open while using the API.
+
+Navigate to the `src` directory.
+
+Build the Docker image:
+```
+docker build -t voice-integration-api .
+```
+
+Run the container:
+```
+docker run -p 8440:8440 voice-integration-api
+```
+
+## Running the Server on the Liquid Galaxy Server
+
+
+### Setup Docker Repository
+
+Download essential packages:
+```
+sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
+```
+
+Create the directory for keyrings:
+```
+sudo mkdir -p /usr/share/keyrings
+```
+
+Add Docker's official GPG key
+```
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+```
+
+
+### Create File for Docker Repository
+
+Add Docker’s official APT repository to our system's resources:
+
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+
+### Update and Install Docker
+
+```
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io
+```
+
+
+### Verify Docker Version
+
+```
+docker --version
+```
+
+
+### Install Docker Compose
+
+```
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+```
+
+### Apply Executable Permissions to Binary
+
+```
+sudo chmod +x /usr/local/bin/docker-compose
+```
+
+
+### verify docker compose version
+
+```
+docker-compose --version
+```
+
+
+### Migrate Passwords
+
+Add the `.env` and the `password.json` file into the `/src` directory of the repository.
+
+
+### Build Docker Image
+
+```
+sudo docker build -t voice-integration-api .
+```
+
+### Run Docker Container
+
+```
+sudo docker run -p 8440:8440 voice-integration-api
+```
+
+### Testing the API
+
+We can execute `curl` commands to test our API endpoints, with an example shown below for the groq endpoint:
+
+```
+curl -X POST "http://localhost:8440/groq/" \
+-H "Content-Type: application/json" \
+-d '{"model": "llama3-8b-8192", "content": "Tell me a joke."}'
+```
+
 
 ## API Endpoints
 
