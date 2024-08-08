@@ -8,7 +8,7 @@ This API provides endpoints for speech-to-text, text-to-speech, and text-to-text
 
 ## Authorization
 
-Create a `.env` in the `src/` directory and set each appropriate API keys as `MODEL_API_KEY`, where `MODEL` is replaced by the model you are using.
+Rename the `env_example` file `.env` in the root directory and set each appropriate API keys as listed below.
 
 - ELEVENLABS_API_KEY
     - Key can be generated [here](https://elevenlabs.io/app/speech-synthesis) under `Profile + API Key`.
@@ -26,124 +26,23 @@ Create a `.env` in the `src/` directory and set each appropriate API keys as `MO
     - In the account you created, click the three dots on the right and.select `Manage keys`.
     - Click `Add key` -> `Create new key`.
     - Select JSON as the key type and click `Create`. This will store your key as a JSON file, which you need to add to your project locally.
-    - In your `.env` file, add the line `export GOOGLE_APPLICATION_CREDENTIALS="/path/to/your/json-file.json"`.
+    - Rename the JSON file and save the file under the `credentials` directory and rename the file directory in the `.env` file to match the name of your file
     - To enable the Google Cloud Speech-to-Text API, head [here](https://console.cloud.google.com/apis/api/speech.googleapis.com) and enable the API for your project.
     - To enable the Google Cloud Text-to-Speech API, head [here](https://console.cloud.google.com/apis/api/texttospeech.googleapis.com) and enable the API for your project.
 
 
-## Running the Server Locally
+## Running the Server
 
 Ensure [Docker Desktop](https://www.docker.com/products/docker-desktop/) is installed and have the application open while using the API.
 
-Navigate to the `src` directory.
-
 Build the Docker image:
 ```
-docker build -t voice-integration-api .
+docker build -t ubuntu-python3 .
 ```
 
 Run the container:
 ```
-docker run -p 8440:8440 voice-integration-api
-```
-
-## Running the Server on the Liquid Galaxy Server
-
-
-### Setup Docker Repository
-
-Download essential packages:
-```
-sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
-```
-
-Create the directory for keyrings:
-```
-sudo mkdir -p /usr/share/keyrings
-```
-
-Add Docker's official GPG key
-```
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-```
-
-
-### Create File for Docker Repository
-
-Add Docker’s official APT repository to our system's resources:
-
-echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-
-### Update and Install Docker
-
-```
-sudo apt-get update
-sudo apt-get install docker-ce docker-ce-cli containerd.io
-```
-
-
-### Verify Docker Version
-
-```
-docker --version
-```
-
-
-### Install Docker Compose
-
-```
-sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-```
-
-### Apply Executable Permissions to Binary
-
-```
-sudo chmod +x /usr/local/bin/docker-compose
-```
-
-
-### verify docker compose version
-
-```
-docker-compose --version
-```
-
-
-### Clone the LG-AI-Voice-Conversational Repository
-
-Clone then navigate to the `src/` directory within the project:
-
-```
-git clone https://github.com/LiquidGalaxyLAB/LG-AI-Voice-conversational
-```
-
-
-### Migrate Passwords
-
-Add the `.env` and the `password.json` file into the `/src` directory of the repository.
-
-
-### Build Docker Image
-
-```
-sudo docker build -t voice-integration-api .
-```
-
-### Run Docker Container
-
-```
-sudo docker run -p 8440:8440 voice-integration-api
-```
-
-### Testing the API
-
-We can execute `curl` commands to test our API endpoints, with an example shown below for the groq endpoint:
-
-```
-curl -X POST "http://localhost:8440/groq/" \
--H "Content-Type: application/json" \
--d '{"model": "llama3-8b-8192", "content": "Tell me a joke."}'
+docker run -it --env-file .env -p 8440:8440 --rm ubuntu-python3:latest
 ```
 
 
