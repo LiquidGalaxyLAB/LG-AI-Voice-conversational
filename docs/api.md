@@ -19,7 +19,6 @@ Rename the `env_example` file to `.env` and set each appropriate API keys as lis
 - GROQ_API_KEY
     - Key can be generated [here](https://console.groq.com/keys).
 - GOOGLE_APPLICATION_CREDENTIALS
-    - Create a `credentials` folder in the root directory of the project.
     - Navigate to https://console.cloud.google.com/.
     - Create a project for you application.
     - In the left sidebar, go to `IAM & Admin` -> `Service Accounts`.
@@ -27,8 +26,8 @@ Rename the `env_example` file to `.env` and set each appropriate API keys as lis
     - In the account you created, click the three dots on the right and.select `Manage keys`.
     - Click `Add key` -> `Create new key`.
     - Select JSON as the key type and click `Create`. This will store your key as a JSON file, which you need to add to your project locally.
-    - After downloading the file, rename the JSON file and save it under the `credentials` folder.
-    - Update the path to the JSON file in the `.env` file.
+    - After downloading the file, replace the `password_example.json` file with your key and save it under the `credentials` folder.
+    - Update the `name-of-your-credentials-file.json` part of the `.env` file with your JSON file name.
     - To enable the Google Cloud Speech-to-Text API, head [here](https://console.cloud.google.com/apis/api/speech.googleapis.com) and enable the API for your project.
     - To enable the Google Cloud Text-to-Speech API, head [here](https://console.cloud.google.com/apis/api/texttospeech.googleapis.com) and enable the API for your project.
 
