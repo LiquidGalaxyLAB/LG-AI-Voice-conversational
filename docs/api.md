@@ -8,7 +8,7 @@ This API provides endpoints for speech-to-text, text-to-speech, and text-to-text
 
 ## Authorization
 
-Rename the `env_example` file `.env` in the root directory and set each appropriate API keys as listed below.
+Rename the `env_example` file to `.env` and set each appropriate API keys as listed below without quotes as shown in the file.
 
 - ELEVENLABS_API_KEY
     - Key can be generated [here](https://elevenlabs.io/app/speech-synthesis) under `Profile + API Key`.
@@ -19,6 +19,7 @@ Rename the `env_example` file `.env` in the root directory and set each appropri
 - GROQ_API_KEY
     - Key can be generated [here](https://console.groq.com/keys).
 - GOOGLE_APPLICATION_CREDENTIALS
+    - Create a `credentials` folder in the root directory of the project.
     - Navigate to https://console.cloud.google.com/.
     - Create a project for you application.
     - In the left sidebar, go to `IAM & Admin` -> `Service Accounts`.
@@ -26,7 +27,8 @@ Rename the `env_example` file `.env` in the root directory and set each appropri
     - In the account you created, click the three dots on the right and.select `Manage keys`.
     - Click `Add key` -> `Create new key`.
     - Select JSON as the key type and click `Create`. This will store your key as a JSON file, which you need to add to your project locally.
-    - Rename the JSON file and save the file under the `credentials` directory and rename the file directory in the `.env` file to match the name of your file
+    - After downloading the file, rename the JSON file and save it under the `credentials` folder.
+    - Update the path to the JSON file in the `.env` file.
     - To enable the Google Cloud Speech-to-Text API, head [here](https://console.cloud.google.com/apis/api/speech.googleapis.com) and enable the API for your project.
     - To enable the Google Cloud Text-to-Speech API, head [here](https://console.cloud.google.com/apis/api/texttospeech.googleapis.com) and enable the API for your project.
 
