@@ -74,6 +74,20 @@ Example:
 
 `400 Bad Request`: If required parameters are missing.
 
+Example CURL Command:
+
+```
+curl.exe -X POST "http://localhost:8440/speech-to-text/" `
+  -F "model=google_cloud_stt" `
+  -F "audio=@example.wav"
+```
+
+Example Response:
+
+```
+{"transcript":"yeah as as much as um it's worth celebrating uh the first Space Walk um with an all female team um I think many of us are looking forward to it just being normal and um I think if it signifies anything it is uh to honor the the women who came before us who um were skilled and qualified um and didn't get uh the same opportunities that we have today"}
+```
+
 ### Text-to-Speech
 
 Convert text to audio using a specified model.
@@ -100,6 +114,23 @@ Response:
 
 `400 Bad Request`: If required parameters are missing.
 
+Example CURL Command:
+
+```
+curl.exe -X POST "http://localhost:8440/text-to-speech" `
+  -H "Content-Type: application/json" `
+  -d "{`"model`":`"google_cloud_tts`",`"content`":`"Hello, this is a test message.`"}" `
+  --output google_cloud_tts.wav
+```
+
+Example Response:
+
+An audio file will be generated under:
+
+```
+google_cloud_tts.wav
+```
+
 ### Groq
 
 Sends text to the Groq LPU and responds with the response message.
@@ -124,6 +155,20 @@ Response:
 `200 OK`: On success, returns the text data.
 
 `400 Bad Request`: If required parameters are missing.
+
+Example CURL Command:
+
+```
+curl.exe -X POST "http://localhost:8440/groq/" `
+  -H "Content-Type: application/json" `
+  --data-raw '{"model":"gemma2-9b-it","content":"hello"}'
+```
+
+Example Response:
+
+```
+{"content":"Hello! 👋  How can I help you today?\n"}
+```
 
 ## Example API Call in Flutter
 
